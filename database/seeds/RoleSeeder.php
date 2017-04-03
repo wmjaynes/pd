@@ -3,17 +3,23 @@
 use Illuminate\Database\Seeder;
 use App\Role;
 
-class RoleSeeder extends Seeder{
+class RoleSeeder extends Seeder
+{
 
-    public function run(){
+    public function run()
+    {
         DB::table('roles')->delete();
 
         Role::create([
-            'name'   => 'user'
+            'name' => 'observer'
         ]);
 
         Role::create([
-            'name'   => 'administrator'
+            'name' => 'editor'
+        ]);
+
+        Role::create([
+            'name' => 'administrator'
         ]);
 
     }

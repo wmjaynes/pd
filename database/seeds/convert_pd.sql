@@ -8,8 +8,8 @@ orgid, orgname, orgaddress1, orgaddress2, orgcity, orgstate, orgzip, orgemail, o
 orgdesc
 from tblOrgs;
 
-insert into organization_user (organization_id, user_id, created_at, updated_at)
-select id, id, current_timestamp(), current_timestamp() from organizations;
+insert into organization_user (organization_id, user_id, role_id, created_at, updated_at)
+select id, id, 2, current_timestamp(), current_timestamp() from organizations;
   
 insert into venues
 (name, streetAddress, addressLocality, addressRegion, postalCode, created_by, event_id, created_at, updated_at)
