@@ -10,6 +10,21 @@
                 <div class="panel-body">
                     You are logged in!
                 </div>
+                <div class="panel-body">
+                    User: {{Auth::user()->nameOrEmail()}}
+                    <br>
+                    Organization: {{Auth::user()->organization()->name}}
+                    <br>
+                    OrganizationRoleUser: {{ Auth::user()->organizationRoleUsers()->first() }}
+                    <br>
+                    User: {{$usr}}
+                    <br>
+                    <br>
+                    User Role: {{ Auth::user()->organizationRoleUsers()->first()->role }}
+                    <br>
+                    <br>
+                    User Org: {{ Auth::user()->organizationRoleUsers()->first()->organization }}
+                </div>
             </div>
         </div>
     </div>

@@ -8,7 +8,7 @@ class Organization extends Model
 {
     public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withTimestamps();
     }
 
     public function user()
@@ -29,5 +29,9 @@ class Organization extends Model
     public function aggregatees()
     {
         return $this->belongsToMany('App\Organization', 'aggregates', 'aggregator_id', 'aggregatee_id');
+    }
+
+    public function organizationRoleUsers() {
+        return $this->hasMany('App\OrganizationRoleUser');
     }
 }

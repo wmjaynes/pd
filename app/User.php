@@ -72,4 +72,8 @@ class User extends Authenticatable
     {
         return $this->organizations()->first();
     }
+
+    public function organizationRoleUsers() {
+        return $this->hasMany('App\OrganizationRoleUser');
+    }
 }

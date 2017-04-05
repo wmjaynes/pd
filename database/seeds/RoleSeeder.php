@@ -11,7 +11,7 @@ class RoleSeeder extends Seeder
         DB::table('roles')->delete();
 
         Role::create([
-            'name' => 'observer'
+            'name' => 'user'
         ]);
 
         Role::create([
