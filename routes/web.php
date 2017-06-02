@@ -19,6 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::resource('event', 'EventController');
+Route::resource('events', 'EventController');
 Route::resource('organization', 'OrganizationController');
 Route::resource('venue', 'VenueController');

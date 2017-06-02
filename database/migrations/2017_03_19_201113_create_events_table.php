@@ -37,6 +37,7 @@ class CreateEventsTable extends Migration
             $table->text('flyerUrl')->nullable();
             $table->text('ticketUrl')->nullable();
             $table->text('altMapUrl')->nullable();
+            $table->text('facebookUrl')->nullable();
             $table->string('venueDetail')->nullable()->comment('Details about venue beyond the address. Like room number');
             $table->boolean('published')->default(0)->comment('Is event visible to world');
             $table->string('tags')->nullable();

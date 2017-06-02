@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
@@ -35,12 +36,29 @@ class Event extends Model
         'endDate'
     ];
 
-    public function venue()
+    public function scopePublished($query)
+    {
+        $query->where('published', '=', 1);
+    }
+
+    public function scopeUnpublished($query)
+    {
+        $query->where('published', '=', 0);
+    }
+
+    public function scopeFuture($query)
+    {
+        $query->where('startDate', '>=', Carbon::now());
+    }
+
+    public
+    function venue()
     {
         return $this->belongsTo('App\Venue');
     }
 
-    public function organization()
+    public
+    function organization()
     {
         return $this->belongsTo('App\Organization');
     }

@@ -11,6 +11,8 @@
 |
 */
 
+use Carbon\Carbon;
+
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
@@ -51,5 +53,7 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
+Carbon::setToStringFormat('n/j/Y g:ia');
+setlocale ( LC_TIME, 'American/Detroit' );
 
 return $app;

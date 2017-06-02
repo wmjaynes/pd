@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    PublicDrum for AACTMAD
                 </div>
 
                 <div class="links">

@@ -9,6 +9,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $currentOrganization;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,7 +29,8 @@ class User extends Authenticatable
         'password', 'remember_token', 'token',
     ];
 
-    public function nameOrEmail() {
+    public function nameOrEmail()
+    {
         if (empty(trim($this->name)))
             return $this->email;
         else
@@ -73,7 +76,20 @@ class User extends Authenticatable
         return $this->organizations()->first();
     }
 
-    public function organizationRoleUsers() {
+    public function setActiveOrganization($org)
+    {
+        $this->currentOrganization = $org;
+    }
+
+    public function activeOrganization()
+    {
+        if (empty($this->currentOrganization))
+            return $this->organization();
+        return $this->currentOrganization();
+    }
+
+    public function organizationRoleUsers()
+    {
         return $this->hasMany('App\OrganizationRoleUser');
     }
 }
