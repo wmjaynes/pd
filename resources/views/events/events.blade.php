@@ -9,8 +9,12 @@
 
 
                     <div class="panel-body">
-                        <h3>User: {{ Auth::user()->nameOrEmail() }}
-                            Organization: {{ Auth::user()->activeOrganization()->name }}</h3>
+                        <h3>
+                            <button type="button" class="btn btn-secondary"><a href="{{route("events.create")}}">Add new
+                                    event for</a>
+
+                            </button>
+                            {{ Auth::user()->activeOrganization()->name }}</h3>
 
                         <hr>
                         <a href="/events">Current</a> &nbsp;&nbsp;
@@ -39,7 +43,8 @@
                                                 <a href="/events/{{$event->id }}/edit">Edit</a>
                                             </button>
                                             <button type="button" class="btn btn-secondary" data-toggle='modal'
-                                                    data-target='#delete-modal' data-eventid='{{$event->id}}' data-eventname='{{$event->name}}'>
+                                                    data-target='#delete-modal' data-eventid='{{$event->id}}'
+                                                    data-eventname='{{$event->name}}'>
                                                 Delete
                                             </button>
                                         </td>
@@ -74,8 +79,15 @@
                                 <tbody>
                                 @foreach($events as $event)
                                     <tr>
-                                        <td><a href="/events/{{$event->id }}/edit">Edit</a> : <a
-                                                    href="/events/{{$event->id}}">Delete</a>
+                                        <td>
+                                            <button type="button" class="btn btn-secondary">
+                                                <a href="/events/{{$event->id }}/edit">Edit</a>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" data-toggle='modal'
+                                                    data-target='#delete-modal' data-eventid='{{$event->id}}'
+                                                    data-eventname='{{$event->name}}'>
+                                                Delete
+                                            </button>
                                         </td>
                                         <td>{{$event->startDate}}</td>
                                         <td>{{ $event->name }}</td>
@@ -124,31 +136,11 @@
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             var modal = $(this)
             modal.find("#eventname").html(eventname);
-            var dlink = modal.find('#delete-link')
             var dform = modal.find('.destroy-form')
             var destroylink = '{{ route("events.destroy",['event'=> 'destroyid']) }}';
             destroylink = destroylink.replace('destroyid', eventid);
-            dlink.attr('href', destroylink);
             dform.attr('action', destroylink);
-            dlink.click(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: "/events/" + eventid,
-                    method: 'DELETE'
-                })
-            })
         });
-        $('.do-the-delete').click(function (e) {
-            e.preventDefault();
-            var eventid = $(this).data('eventid');
-            $.ajax({
-                url: "/events/" + eventid,
-                method: 'DELETE',
-                complete: function (e, status) {
-                    alert(status);
-                }
-            });
-        })
     </script>
 
 @endsection

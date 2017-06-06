@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Http\Requests\CreateEventRequest;
+use App\Http\Requests\EventRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +36,9 @@ class EventController extends Controller
         }
 
         If (is_null($eventYear)) {
-            $events = $org->events()->oldest('startDate')->future()->published();
+            $events = $org->events()->oldest('startDate')->future()->published()->get();
         } else {
-            $events = $org->events()->oldest('startDate')->whereYear('startDate', $eventYear)->get();
+            $events = $org->events()->oldest('startDate')->published()->whereYear('startDate', $eventYear)->get();
         }
 //        \DB::listen(function ($sql) {
 //            var_dump($sql);
@@ -65,7 +65,7 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateEventRequest $request)
+    public function store(EventRequest $request)
     {
         $input = $request->all();
 
@@ -106,7 +106,7 @@ class EventController extends Controller
     {
         Log::debug("edit: $event->id");
 //        dd($event);
-        return view('events.edit', ['event'=>$event]);
+        return view('events.edit', compact('event'));
     }
 
     /**
@@ -116,7 +116,7 @@ class EventController extends Controller
      * @param  \App\Event $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(EventRequest $request, Event $event)
     {
         $input = $request->all();
 
@@ -128,7 +128,7 @@ class EventController extends Controller
         $event->fill($input);
         $event->save();
 //        return $event;
-        return view('events.edit', ['event'=>$event]);
+        return view('events.edit', compact('event'));
     }
 
     /**
