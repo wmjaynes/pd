@@ -19,7 +19,7 @@
                 <a class="nav-link" href="/venue">Venues</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/organizations">Organizations</a>
+                <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/aggregates">Aggregates</a>

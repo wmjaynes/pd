@@ -14,7 +14,9 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+        $organizations = Organization::all();
+
+        return view('organization.organization', ['organization' => $organizations] );
     }
 
     /**
@@ -24,7 +26,7 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        //
+        return view('organization.create');
     }
 
     /**
