@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Organization;
+use App\Http\Requests\OrganizationRequest;
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -16,7 +17,7 @@ class OrganizationController extends Controller
     {
         $organizations = Organization::all();
 
-        return view('organization.organization', ['organization' => $organizations] );
+        return view('organization.organizations', ['organizations' => $organizations] );
     }
 
     /**
@@ -35,9 +36,12 @@ class OrganizationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrganizationRequest $request)
     {
-        //
+        $organization = new Organization($request->all());
+        $organization->save();
+
+        return redirect('organization');
     }
 
     /**
@@ -59,7 +63,7 @@ class OrganizationController extends Controller
      */
     public function edit(Organization $organization)
     {
-        //
+        return view('organization.edit', compact('organization'));
     }
 
     /**
@@ -69,9 +73,12 @@ class OrganizationController extends Controller
      * @param  \App\Organization  $organization
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Organization $organization)
+    public function update(OrganizationRequest $request, Organization $organization)
     {
-        //
+        $organization->fill($request->all());
+        $organization->save();
+
+        return view('organization.edit', compact('organization'));
     }
 
     /**

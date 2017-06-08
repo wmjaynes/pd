@@ -54,7 +54,7 @@
                             Organization: {{ Auth::user()->activeOrganization()->name }}</h3>
 
                         <div class="form-status-holder">
-                            @include('events._errors')
+                            @include('errors._errors')
                         </div>
                         {!! Form::model($event, ['method' => 'patch', 'route'=>['events.update', $event->id]]) !!}
 

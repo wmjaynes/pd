@@ -6,6 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
 {
+    protected $fillable = [
+        'name',
+        'address1',
+        'address2',
+        'state',
+        'city',
+        'postalCode',
+        'email',
+        'phone',
+        'contactName',
+        'url',
+        'logoUrl',
+        'facebookUrl',
+        'description',
+    ];
+
     public function users()
     {
         return $this->belongsToMany('App\User')->withTimestamps();
@@ -31,7 +47,8 @@ class Organization extends Model
         return $this->belongsToMany('App\Organization', 'aggregates', 'aggregator_id', 'aggregatee_id');
     }
 
-    public function organizationRoleUsers() {
+    public function organizationRoleUsers()
+    {
         return $this->hasMany('App\OrganizationRoleUser');
     }
 }

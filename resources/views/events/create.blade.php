@@ -67,7 +67,7 @@
                             Organization: {{ Auth::user()->activeOrganization()->name }}</h3>
 
                         <div class="form-status-holder">
-                            @include('events._errors')
+                            @include('errors._errors')
                         </div>
 
                         {!! Form::open(['route'=>'events.store']) !!}

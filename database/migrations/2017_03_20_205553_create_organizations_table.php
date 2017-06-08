@@ -13,7 +13,7 @@ class CreateOrganizationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('organization', function (Blueprint $table) {
+        Schema::create('organizations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('address1')->nullable();
@@ -26,6 +26,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('contactName')->nullable();
             $table->string('url')->comment("Web address of the organization web site")->nullable();
             $table->string('logoUrl')->nullable();
+            $table->string('facebookUrl')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
         });
@@ -38,6 +39,6 @@ class CreateOrganizationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organization');
+        Schema::dropIfExists('organizations');
     }
 }

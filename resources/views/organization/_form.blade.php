@@ -1,7 +1,7 @@
 <fieldset class='form-group'>
     <legend>Organization:</legend>
     <div class="form-group row {{ $errors->has('name') ? 'alert-danger' : '' }}">
-        {!! Form::label('name', 'Event Name', ['class'=>'form-control-label col-sm-2']) !!}
+        {!! Form::label('name', 'Organization Name', ['class'=>'form-control-label col-sm-2']) !!}
         {!! Form::text('name', null, ['class'=>'form-control col-sm-6']) !!}
     </div>
 </fieldset>
@@ -13,8 +13,8 @@
         {!! Form::text('address1', null, ['class'=>'form-control col-sm-8']) !!}
     </div>
     <div class="form-group row">
-        {!! Form::label('address1', 'Address 2', ['class'=>'form-control-label col-sm-2']) !!}
-        {!! Form::text('address1', null, ['class'=>'form-control col-sm-8']) !!}
+        {!! Form::label('address2', 'Address 2', ['class'=>'form-control-label col-sm-2']) !!}
+        {!! Form::text('address2', null, ['class'=>'form-control col-sm-8']) !!}
     </div>
     <div class="form-group row">
         {!! Form::label('city', 'City', ['class'=>'form-control-label col-sm-2']) !!}
@@ -56,6 +56,10 @@
     <div class="form-group row">
         {!! Form::label('logoUrl', 'Address of Logo image', ['class'=>'form-control-label col-sm-2']) !!}
         {!! Form::text('logoUrl', null, ['class'=>'form-control col-sm-8','placeholder'=>'http://']) !!}
+    </div>
+    <div class="form-group row">
+        {!! Form::label('facebookUrl', 'Address of Facebook Group or Page', ['class'=>'form-control-label col-sm-2']) !!}
+        {!! Form::text('facebookUrl', null, ['class'=>'form-control col-sm-8','placeholder'=>'https://']) !!}
     </div>
 </fieldset>
 

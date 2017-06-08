@@ -11,9 +11,9 @@
             @include('errors._errors')
         </div>
 
-    {!! Form::open(['route'=>'organization.store']) !!}
+    {!! Form::model($organization, ['method' => 'patch', 'route'=>['organization.update', $organization->id]]) !!}
 
-    @include('organization._form', ['submitButtonText' => 'Create Organization'])
+    @include('organization._form', ['submitButtonText' => 'Update Organization'])
 
     {!! Form::close() !!}
 
