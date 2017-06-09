@@ -17,8 +17,21 @@
         @if($organizations)
             <ul>
                 @foreach($organizations as $organization)
+                    @php($route = route("organization.destroy",['$organization'=> $organization->id]))
                     <li>
-                        <a href="{{ route('organization.edit', ['organization'=>$organization->id]) }}">{{$organization->name}}</a>
+
+                        <button type="button" class="btn btn-secondary">
+                            <a href="/organization/{{$organization->id }}/edit">Edit</a>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-toggle='modal'
+                                data-target='#delete-modal' data-deleteid='{{$organization->id}}'
+                                data-deletename='{{$organization->name}}'
+                                data-deleteModalLabel='Delete Organization' data-route="{{$route}}">
+                            Delete
+                        </button>
+
+                        {{$organization->name}}
+
                     </li>
 
                 @endforeach
@@ -31,6 +44,7 @@
     </div>
 
 
+    @include("_deleteModal")
 
 
 

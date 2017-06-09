@@ -37,14 +37,16 @@
                                 </thead>
                                 <tbody>
                                 @foreach($hidden as $event)
+                                    @php($route = route("events.destroy",['event'=> $event->id]))
                                     <tr>
                                         <td>
                                             <button type="button" class="btn btn-secondary">
                                                 <a href="/events/{{$event->id }}/edit">Edit</a>
                                             </button>
                                             <button type="button" class="btn btn-secondary" data-toggle='modal'
-                                                    data-target='#delete-modal' data-eventid='{{$event->id}}'
-                                                    data-eventname='{{$event->name}}'>
+                                                    data-target='#delete-modal' data-deleteid='{{$event->id}}'
+                                                    data-deletename='{{$event->name}}'
+                                                    data-deleteModalLabel='Delete Event' data-route="{{$route}}">
                                                 Delete
                                             </button>
                                         </td>
@@ -78,14 +80,16 @@
                                 </thead>
                                 <tbody>
                                 @foreach($events as $event)
+                                    @php($route = route("events.destroy",['event'=> $event->id]))
                                     <tr>
                                         <td>
                                             <button type="button" class="btn btn-secondary">
                                                 <a href="/events/{{$event->id }}/edit">Edit</a>
                                             </button>
                                             <button type="button" class="btn btn-secondary" data-toggle='modal'
-                                                    data-target='#delete-modal' data-eventid='{{$event->id}}'
-                                                    data-eventname='{{$event->name}}'>
+                                                    data-target='#delete-modal' data-deleteid='{{$event->id}}'
+                                                    data-deletename='{{$event->name}}'
+                                                    data-deleteModalLabel='Delete Event' data-route="{{$route}}">
                                                 Delete
                                             </button>
                                         </td>
@@ -105,42 +109,6 @@
         </div>
     </div>
 
-
-    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Event</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Delete the event: <span id="eventname"></span> ? This action can not be undone.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    {{ Form::open(['route' => ['events.destroy', $event->id], 'method' => 'delete', 'class' => 'destroy-form']) }}
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    {{ Form::close() }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $('#delete-modal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var eventid = button.data('eventid') // Extract info from data-* attributes
-            var eventname = button.data('eventname')
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var modal = $(this)
-            modal.find("#eventname").html(eventname);
-            var dform = modal.find('.destroy-form')
-            var destroylink = '{{ route("events.destroy",['event'=> 'destroyid']) }}';
-            destroylink = destroylink.replace('destroyid', eventid);
-            dform.attr('action', destroylink);
-        });
-    </script>
+    @include('_deleteModal')
 
 @endsection
