@@ -14,6 +14,8 @@
 
         <hr>
 
+        @include('errors._errors')
+
         @if($organizations)
             <ul>
                 @foreach($organizations as $organization)
