@@ -24,7 +24,7 @@
                     </div>
                 </div>
 
-                @foreach($organization->aggregatees as $agg)
+                @foreach($organization->aggregateesNotMe() as $agg)
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" name='agg[]' value="{{$agg->id}}">
@@ -45,7 +45,8 @@
                     <div class="form-group row">
                         <label for="name" class="col-md-2 control-form-label">Name</label>
                         <div class="col-md-7">
-                            <input type="text" class="form-control" name="searchTerm" id="searchTerm" value='{{$searchTerm or null}}' required>
+                            <input type="text" class="form-control" name="searchTerm" id="searchTerm"
+                                   value='{{$searchTerm or null}}' required>
                         </div>
                         <button type="submit" value='search' name='search' class="btn btn-primary btn-sm">Search
                         </button>
@@ -53,24 +54,28 @@
                     </div>
                     {!! Form::close() !!}
 
-                    {!! Form::open(['route' => ['aggregate.search', $organization->id], 'method' => 'patch']) !!}
-                    @foreach($searchOrgs as $agg)
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name='addOrg[]' value="{{$agg->id}}">
-                                {{$agg->id}}: {{$agg->name}} ({{$agg->city}})
-                            </label>
+                    @if($searchOrgs)
+                        {!! Form::open(['route' => ['aggregate.search', $organization->id], 'method' => 'patch']) !!}
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" value='addnew' name='addnew' class="btn btn-primary btn-sm">Add
+                                    Selected
+                                </button>
+                            </div>
                         </div>
-                    @endforeach
+                        @foreach($searchOrgs as $agg)
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name='addOrg[]' value="{{$agg->id}}">
+                                    {{$agg->id}}: {{$agg->name}} ({{$agg->city}})
+                                </label>
+                            </div>
+                        @endforeach
+                        {!! Form::close() !!}
+                    @else()
+                        <p class="alert">No results found</p>
+                @endif
 
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            <button type="submit" value='addnew' name='addnew' class="btn btn-primary btn-sm">Add
-                                Selected
-                            </button>
-                        </div>
-                    </div>
-                {!! Form::close() !!}
             </div>
         </div>
 

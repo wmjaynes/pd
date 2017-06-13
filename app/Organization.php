@@ -47,6 +47,10 @@ class Organization extends Model
         return $this->belongsToMany('App\Organization', 'aggregates', 'aggregator_id', 'aggregatee_id');
     }
 
+    public function aggregateesNotMe() {
+        return $this->aggregatees->except(['id' => $this->id]);
+    }
+
     public function organizationRoleUsers()
     {
         return $this->hasMany('App\OrganizationRoleUser');
