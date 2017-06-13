@@ -22,3 +22,6 @@ Route::get('/home', 'HomeController@index');
 Route::resource('events', 'EventController');
 Route::resource('organization', 'OrganizationController');
 Route::resource('venue', 'VenueController');
+
+Route::get('/aggregate/{organization}', 'AggregateController@index')->name('aggregate.index');
+Route::delete('/aggregate/{organization}', 'AggregateController@destroy')->name('aggregate.destroy');
