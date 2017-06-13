@@ -14,55 +14,63 @@
 
                 {!! Form::open(['route' => ['aggregate.destroy', $organization->id], 'method' => 'delete'])  !!}
 
-                    <input type='hidden' name='orgId' value='{{$organization->id}}'>
+                <input type='hidden' name='orgId' value='{{$organization->id}}'>
 
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            <button type="submit" value='remove' name='remove' class="btn btn-primary btn-sm">Remove Selected</button>
-                        </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" value='remove' name='remove' class="btn btn-primary btn-sm">Remove
+                            Selected
+                        </button>
                     </div>
+                </div>
 
-                    @foreach($organization->aggregatees as $agg)
+                @foreach($organization->aggregatees as $agg)
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" name='agg[]' value="{{$agg->id}}">
                             {{$agg->id}}: {{$agg->name}} ({{$agg->city}})
                         </label>
                     </div>
-                    @endforeach
+                @endforeach
                 {!! Form::close()  !!}
             </div>
             <div class='col-md-6'>
                 <p>Search for organizations you would like to add:</p>
-                <form action='/aggregates-search' method='post'>
-                    <input type='hidden' name='orgId' value='{{$organization->id}}'>
 
-                    <fieldset class='form-group row'>
-                        <legend>Search:</legend>
-                        <div class="form-group row">
-                            <label for="name" class="col-md-2 control-form-label">Name</label>
-                            <div class="col-md-7">
-                                <input type="text" class="form-control" name="name" id="name" value='' required>
-                            </div>
-                            <button type="submit" value='search' name='search' class="btn btn-primary btn-sm">Search</button>
+                {!! Form::open(['route' => ['aggregate.search', $organization->id]]) !!}
+                <input type='hidden' name='orgId' value='{{$organization->id}}'>
 
+                <fieldset class='form-group row'>
+                    <legend>Search:</legend>
+                    <div class="form-group row">
+                        <label for="name" class="col-md-2 control-form-label">Name</label>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="searchTerm" id="searchTerm" value='{{$searchTerm or null}}' required>
                         </div>
+                        <button type="submit" value='search' name='search' class="btn btn-primary btn-sm">Search
+                        </button>
 
-                        @foreach($searchOrgs as $agg)
+                    </div>
+                    {!! Form::close() !!}
+
+                    {!! Form::open(['route' => ['aggregate.search', $organization->id], 'method' => 'patch']) !!}
+                    @foreach($searchOrgs as $agg)
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name='addOrg[]' value="{{$agg->id}}">
                                 {{$agg->id}}: {{$agg->name}} ({{$agg->city}})
                             </label>
                         </div>
-                        @endforeach
+                    @endforeach
 
-                        <div class="form-group row">
-                            <div class="col-sm-10">
-                                <button type="submit" value='addnew' name='addnew' class="btn btn-primary btn-sm">Add Selected</button>
-                            </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" value='addnew' name='addnew' class="btn btn-primary btn-sm">Add
+                                Selected
+                            </button>
                         </div>
-                </form>
+                    </div>
+                {!! Form::close() !!}
             </div>
         </div>
 
