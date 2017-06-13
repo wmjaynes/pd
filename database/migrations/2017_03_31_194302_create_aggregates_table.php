@@ -15,8 +15,11 @@ class CreateAggregatesTable extends Migration
     {
         Schema::create('aggregates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('aggregator_id');
-            $table->integer('aggregatee_id');
+            $table->unsignedInteger('aggregator_id');
+            $table->foreign('aggregator_id')->references('id')->on('organizations');
+            $table->unsignedInteger('aggregatee_id');
+            $table->foreign('aggregatee_id')->references('id')->on('organizations');
+
             $table->timestamps();
         });
     }

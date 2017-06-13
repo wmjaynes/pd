@@ -90,18 +90,13 @@ class OrganizationController extends Controller
      */
     public function destroy(Organization $organization)
     {
-        Log::debug("destroy: $organization->id");
-        $organization->events->count();
-        Log::debug("destroy: " . $organization->events->isNotEmpty());
-
-
         $deleteErrors = [];
         if ($organization->events->isNotEmpty()) {
             $deleteErrors[] = "The organization, $organization->name, has events associated with it and therefore can not be deleted.";
             return redirect('organization')->withErrors($deleteErrors);
         }
 
-//        $organization->delete();
+        $organization->delete();
 
         return redirect('organization');
     }
