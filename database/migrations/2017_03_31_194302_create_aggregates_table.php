@@ -20,6 +20,8 @@ class CreateAggregatesTable extends Migration
             $table->unsignedInteger('aggregatee_id');
             $table->foreign('aggregatee_id')->references('id')->on('organizations');
 
+            $table->index(['aggregator_id', 'aggregatee_id']);
+
             $table->timestamps();
         });
     }
