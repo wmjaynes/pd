@@ -34,6 +34,8 @@
 
                         {{$organization->name}}
 
+                        <a href="{{route('aggregate.index', ['id' => $organization->id])}}">Aggregates</a>
+
                     </li>
 
                 @endforeach

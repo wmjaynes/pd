@@ -27,3 +27,5 @@ Route::get('/aggregate/{organization}', 'AggregateController@index')->name('aggr
 Route::delete('/aggregate/{organization}', 'AggregateController@destroy')->name('aggregate.destroy');
 Route::post('/aggregate/{organization}', 'AggregateController@search')->name('aggregate.search');
 Route::patch('/aggregate/{organization}', 'AggregateController@update')->name('aggregate.update');
+
+Route::get('/user/{user}', 'UserController@show')->name('user.show');
