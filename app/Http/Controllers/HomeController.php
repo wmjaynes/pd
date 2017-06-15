@@ -39,6 +39,10 @@ class HomeController extends Controller
 //        $org = $oru->organization();
         $userRole = $oru->role;
 //        var_dump($userRole);
+
+        if (! session()->has("currentOrganization")) {
+            session(['currentOrganization'=>$user->organization()]);
+        }
         return view('home', ['oru' => $oru, 'usr' => $user, 'usrOru'=>$userRole, 'org'=>$org]);
     }
 }

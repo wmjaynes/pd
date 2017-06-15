@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -41,6 +42,8 @@ class LoginController extends Controller
     {
         if (Auth::attempt(['userId' => $userId, 'password' => $password, 'active' => 1, 'blocked' => 0])) {
             // Authentication passed...
+            Log::debug("authenticate: Auth::user()->organizations()->first()");
+            session(['currentOrganization' => Auth::user()->organizations()->first()]);
             return redirect()->intended('home');
         }
     }
