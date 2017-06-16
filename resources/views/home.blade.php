@@ -13,8 +13,11 @@
                     <div class="panel-body">
                         <p>User: {{Auth::user()->nameOrEmail()}}</p>
                         <p>Organizations for which you can create events:
-                        <ul>@foreach(Auth::user()->organizationRoleUsers as $oru)
-                                <li>{{ $oru->organization->name }}</li>
+                        <ul>
+                            @foreach(Auth::user()->organizationRoleUsers as $oru)
+                                <li>
+                                    <a href="{{route('eventsfor.show',['organization'=>$oru->organization->id])}}">{{ $oru->organization->name }}</a>
+                                </li>
 
                             @endforeach
                         </ul>
@@ -23,14 +26,7 @@
                         <br>
                         <br>
                         <br>
-                        <br>
-                        User: {{$usr}}
-                        <br>
-                        <br>
-                        User Role: {{ Auth::user()->organizationRoleUsers()->first()->role }}
-                        <br>
-                        <br>
-                        User Org: {{ Auth::user()->organizationRoleUsers()->first()->organization }}
+
                     </div>
                 </div>
             </div>

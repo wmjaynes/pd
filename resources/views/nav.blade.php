@@ -22,7 +22,7 @@
                 <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/aggregates">Aggregates</a>
+                <a class="nav-link" href="{{route('aggregate.index',['organization'=>session('currentOrganization')->id])}}">Aggregates</a>
             </li>
 
             @if(Auth::user())

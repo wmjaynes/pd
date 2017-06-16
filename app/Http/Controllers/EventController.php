@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Http\Requests\EventRequest;
+use App\Organization;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,8 @@ class EventController extends Controller
             $eventYear = $request->input('year');
         $events = null;
         $org = Auth::user()->organization();
+        $org = session('currentOrganization');
+        Log::debug("org: $org");
         $oldestEvent = $org->events()->orderBy('startDate', 'asc')->first();
         $oldestYear = $oldestEvent->startDate->year;
         $currentYear = Carbon::today()->year;
@@ -47,6 +50,14 @@ class EventController extends Controller
         $hidden = $org->events()->oldest('startDate')->unpublished()->get();
 
         return view('events.events', ['year' => $eventYear, 'years' => $years, 'events' => $events, 'hidden' => $hidden]);
+    }
+
+
+    public function show(Organization $organization, Request $request)
+    {
+        Log::debug("show:org - $organization");
+        session(['currentOrganization'=>$organization]);
+        return $this->index($request);
     }
 
     /**
@@ -74,7 +85,7 @@ class EventController extends Controller
         $input ['startDate'] = $start;
         $input ['endDate'] = $end;
 
-        $org = Auth::user()->activeOrganization();
+        $org = session('currentOrganization');
 
         $input ['organization_id'] = $org->id;
         $event = new Event($input);
@@ -85,16 +96,7 @@ class EventController extends Controller
         return redirect('events');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Event $event
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Event $event)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.

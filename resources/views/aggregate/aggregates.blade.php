@@ -5,12 +5,12 @@
 
 
         <h3>
-            {{ Auth::user()->activeOrganization()->name }}</h3>
+            {{ session('currentOrganization')->name }}</h3>
         <hr>
 
         <div class='row'>
             <div class='col-md-6'>
-                <p>{{$organization->name}} displays events from the following organizations:</p>
+                <p>{{session('currentOrganization')->name}} displays events from the following organizations:</p>
 
                 {!! Form::open(['route' => ['aggregate.destroy', $organization->id], 'method' => 'delete'])  !!}
 

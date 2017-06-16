@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/eventsfor/{organization}', 'EventController@show')->name('eventsfor.show');
 
 Route::resource('events', 'EventController');
 Route::resource('organization', 'OrganizationController');
@@ -29,3 +30,4 @@ Route::post('/aggregate/{organization}', 'AggregateController@search')->name('ag
 Route::patch('/aggregate/{organization}', 'AggregateController@update')->name('aggregate.update');
 
 Route::get('/user/{user}', 'UserController@show')->name('user.show');
+
