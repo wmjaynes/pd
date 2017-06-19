@@ -6,6 +6,7 @@ use App\OrganizationRoleUser;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -31,18 +32,15 @@ class HomeController extends Controller
 //        });
 //        $oru = OrganizationRoleUser::find(7);
         $user = Auth::user();
-//        $user = User::find(135);
-        $org = $user->organization();
-//        var_dump($org);
-        $oru = $user->organizationRoleUsers()->first();
-//        dd($oru);
-//        $org = $oru->organization();
-        $userRole = $oru->role;
-//        var_dump($userRole);
 
-        if (! session()->has("currentOrganization")) {
-            session(['currentOrganization'=>$user->organization()]);
+        foreach ($user->organizations as $organization) {
+            Log::debug('home: '.$organization);
         }
-        return view('home', ['oru' => $oru, 'usr' => $user, 'usrOru'=>$userRole, 'org'=>$org]);
+
+        $activeOrganization = $user->currentOrganization;
+        Log::debug('home:index: activeOrg: '.$activeOrganization);
+//        $userRole = $oru->role;
+
+        return view('home', ['aorg'=>$activeOrganization]);
     }
 }

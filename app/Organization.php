@@ -24,7 +24,7 @@ class Organization extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User')->withTimestamps();
+        return $this->belongsToMany('App\User')->withTimestamps()->withPivot('role_id')->using(OrganizationRoleUser::class);
     }
 
     public function user()
@@ -49,10 +49,5 @@ class Organization extends Model
 
     public function aggregateesNotMe() {
         return $this->aggregatees->except(['id' => $this->id]);
-    }
-
-    public function organizationRoleUsers()
-    {
-        return $this->hasMany('App\OrganizationRoleUser');
     }
 }

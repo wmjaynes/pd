@@ -1,5 +1,5 @@
 insert into users 
-(select orgid, OrgContactName, OrgEmail, OrgUserName, OrgPW, NULL, NULL, OrgLastLogin, 0, 1, OrgRegDate, OrgLastLogin from tblOrgs);
+(select orgid, OrgContactName, OrgEmail, OrgUserName, OrgPW, NULL, NULL, OrgLastLogin, 0, 1, 0, NULL, OrgRegDate, OrgLastLogin from tblOrgs);
 
 insert into organizations
 (id, name, address1, address2, city, state, postalCode, email, phone, contactName, url, logoUrl, description)

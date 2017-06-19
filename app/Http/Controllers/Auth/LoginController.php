@@ -44,6 +44,7 @@ class LoginController extends Controller
             // Authentication passed...
             Log::debug("authenticate: Auth::user()->organizations()->first()");
             session(['currentOrganization' => Auth::user()->organizations()->first()]);
+            Auth::user()->setActiveOrganization(Auth::user()->organizations()->first());
             return redirect()->intended('home');
         }
     }

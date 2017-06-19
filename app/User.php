@@ -68,7 +68,12 @@ class User extends Authenticatable
 
     public function organizations()
     {
-        return $this->belongsToMany('App\Organization')->withTimestamps();
+        return $this->belongsToMany('App\Organization')->withTimestamps()->withPivot('role_id')->using(OrganizationRoleUser::class);
+    }
+
+    public function currentOrganization()
+    {
+       return $this->belongsTo('App\Organization', 'activeOrganization');
     }
 
     public function organization()
@@ -76,20 +81,5 @@ class User extends Authenticatable
         return $this->organizations()->first();
     }
 
-    public function setActiveOrganization($org)
-    {
-        $this->currentOrganization = $org;
-    }
 
-    public function activeOrganization()
-    {
-        if (empty($this->currentOrganization))
-            return $this->organization();
-        return $this->currentOrganization();
-    }
-
-    public function organizationRoleUsers()
-    {
-        return $this->hasMany('App\OrganizationRoleUser');
-    }
 }

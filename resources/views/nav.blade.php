@@ -12,20 +12,23 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('events.index') }}">Events</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/venue">Venues</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('aggregate.index',['organization'=>session('currentOrganization')->id])}}">Aggregates</a>
-            </li>
 
             @if(Auth::user())
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('events.index') }}">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/venue">Venues</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{route('aggregate.index',['organization'=>Auth::user()->currentOrganization->id])}}">Aggregates</a>
+                </li>
+
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">

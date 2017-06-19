@@ -14,15 +14,16 @@
                         <p>User: {{Auth::user()->nameOrEmail()}}</p>
                         <p>Organizations for which you can create events:
                         <ul>
-                            @foreach(Auth::user()->organizationRoleUsers as $oru)
+                            @foreach(Auth::user()->organizations as $org)
                                 <li>
-                                    <a href="{{route('eventsfor.show',['organization'=>$oru->organization->id])}}">{{ $oru->organization->name }}</a>
+                                    <a href="{{route('eventsfor.show',['organization'=>$org->id])}}">{{ $org->name }}</a> :
+                                    {{$org->pivot->role->name}}
                                 </li>
 
                             @endforeach
                         </ul>
                         </p>
-                        <p>Currently active organization: {{session('currentOrganization')->name}}</p>
+{{--                        <p>Currently active organization: {{Auth::user()->activeOrganization()->name}}</p>--}}
                         <br>
                         <br>
                         <br>

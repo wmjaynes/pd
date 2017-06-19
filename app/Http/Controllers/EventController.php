@@ -24,13 +24,13 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
+        Log::debug("index:org - ".Auth::user()->activeOrganization());
         $eventYear = null;
         if ($request->has('year'))
             $eventYear = $request->input('year');
         $events = null;
-        $org = Auth::user()->organization();
-        $org = session('currentOrganization');
-        Log::debug("org: $org");
+        $org = Auth::user()->activeOrganization();
+        Log::debug("events index org: $org");
         $oldestEvent = $org->events()->orderBy('startDate', 'asc')->first();
         $oldestYear = $oldestEvent->startDate->year;
         $currentYear = Carbon::today()->year;
@@ -56,7 +56,7 @@ class EventController extends Controller
     public function show(Organization $organization, Request $request)
     {
         Log::debug("show:org - $organization");
-        session(['currentOrganization'=>$organization]);
+        Auth::user()->setActiveOrganization($organization);
         return $this->index($request);
     }
 
@@ -85,7 +85,8 @@ class EventController extends Controller
         $input ['startDate'] = $start;
         $input ['endDate'] = $end;
 
-        $org = session('currentOrganization');
+        $org = Auth::user()->activeOrganization();
+        Log::debug("event store: org:$org");
 
         $input ['organization_id'] = $org->id;
         $event = new Event($input);

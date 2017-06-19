@@ -14,7 +14,7 @@
                                     event for</a>
 
                             </button>
-                            {{ session('currentOrganization')->name }}</h3>
+                            {{ Auth::user()->activeOrganization()->name }}</h3>
 
                         <hr>
                         <a href="/events">Current</a> &nbsp;&nbsp;
