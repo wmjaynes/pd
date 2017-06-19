@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Will Jaynes',
             'email' => 'will@jaynes.org',
             'userid' => 'wmjaynes',
-            'password' => 'william',a
+            'password' => 'william',
 //            'activeOrganization' => 135,
         ]);
 
@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
         \Illuminate\Support\Facades\Log::debug('dbseeder - user' . $user);
 //        $user->organizations()->attach($org);
         $user->organizations()->save($org, ['role_id'=>$role->id] );
-        $user->organizations()->save($org2, ['role_id'=>$role->id] );
+        $user->organizations()->save($org2, ['role_id'=>2] );
         $user->currentOrganization()->associate($org);
         $user->save();
 //        $user->organizations->pivot->role = $role;
