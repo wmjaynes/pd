@@ -85,7 +85,9 @@ class User extends Authenticatable
         if ($this->hasOrganization($organization->name)) {
             $this->currentOrganization()->associate($organization);
             $this->save();
+            return true;
         }
+        return false;
     }
 
     public function organization()
