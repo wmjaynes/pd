@@ -23,7 +23,7 @@
                             @endforeach
                         </ul>
                         </p>
-{{--                        <p>Currently active organization: {{Auth::user()->activeOrganization()->name}}</p>--}}
+                        <p>Currently active organization: {{Auth::user()->currentOrganization->name}}</p>
                         <br>
                         <br>
                         <br>

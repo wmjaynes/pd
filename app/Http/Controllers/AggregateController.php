@@ -18,7 +18,7 @@ class AggregateController extends Controller
 
 //        $aggregates = $organization->aggregatees ()->where ( 'aggregator_id', '!=', $organization->id )->orderBy ( 'name', 'asc' )->get ();
 //        $aggregates = $organization->aggregatees()->get();
-        Auth::user()->setActiveOrganization($organization);
+        Auth::user()->setCurrentOrganization($organization);
         return view('aggregate.aggregates', ['organization' => $organization, 'searchOrgs' => [],]);
     }
 

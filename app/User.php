@@ -61,9 +61,13 @@ class User extends Authenticatable
         return $this->roles()->detach($role);
     }
 
-    public function hasOrganization()
+    public function hasOrganization($name)
     {
-        return $this->organizations()->count() > 0;
+        foreach ($this->organizations as $org) {
+            if ($org->name == $name) return true;
+        }
+
+        return false;
     }
 
     public function organizations()
@@ -73,7 +77,15 @@ class User extends Authenticatable
 
     public function currentOrganization()
     {
-       return $this->belongsTo('App\Organization', 'activeOrganization');
+        return $this->belongsTo('App\Organization', 'activeOrganization');
+    }
+
+    public function setCurrentOrganization(Organization $organization)
+    {
+        if ($this->hasOrganization($organization->name)) {
+            $this->currentOrganization()->associate($organization);
+            $this->save();
+        }
     }
 
     public function organization()
