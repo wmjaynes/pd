@@ -41,6 +41,12 @@ class HomeController extends Controller
         Log::debug('home:index: activeOrg: '.$activeOrganization);
 //        $userRole = $oru->role;
 
+//        $organizations = Organization::orderBy('name', 'asc')->get();
+
+        foreach ($user->organizations as $organization) {
+            Log::debug('home'.$organization->pivot->role);
+        }
+
         return view('home', ['aorg'=>$activeOrganization]);
     }
 }

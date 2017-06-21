@@ -18,10 +18,12 @@ class CheckOrganization
      */
     public function handle($request, Closure $next)
     {
+
         $organization = $request->route('organization');
         $success = true;
         if (isset($organization)) {
-            $success = Auth::user()->setCurrentOrganization($request->organization);
+            if (!Auth::user()->superuser)
+                $success = Auth::user()->setCurrentOrganization($request->organization);
         }
         if ($success)
             return $next($request);

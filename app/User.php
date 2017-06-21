@@ -82,17 +82,12 @@ class User extends Authenticatable
 
     public function setCurrentOrganization(Organization $organization)
     {
-        if ($this->hasOrganization($organization->name)) {
+        if ($this->superuser || $this->hasOrganization($organization->name)) {
             $this->currentOrganization()->associate($organization);
             $this->save();
             return true;
         }
         return false;
-    }
-
-    public function organization()
-    {
-        return $this->organizations()->first();
     }
 
 
