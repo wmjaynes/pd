@@ -80,8 +80,18 @@ class User extends Authenticatable
         return $this->belongsTo('App\Organization', 'activeOrganization');
     }
 
+    /**
+     * This does too much. Should refactor.
+     *
+     * @param Organization $organization
+     * @return bool
+     */
     public function setCurrentOrganization(Organization $organization)
     {
+        if (!isset($this->currentOrganization)) {
+            $this->currentOrganization()->associate($this->organizations()->first());
+            $this->save();
+        }
         if ($this->superuser || $this->hasOrganization($organization->name)) {
             $this->currentOrganization()->associate($organization);
             $this->save();

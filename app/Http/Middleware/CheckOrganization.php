@@ -20,10 +20,14 @@ class CheckOrganization
     {
 
         $organization = $request->route('organization');
+        $event = $request->route('event');
+        if (isset($event)) {
+            $organization = $event->organization;
+        }
         $success = true;
         if (isset($organization)) {
             if (!Auth::user()->superuser)
-                $success = Auth::user()->setCurrentOrganization($request->organization);
+                $success = Auth::user()->setCurrentOrganization($organization);
         }
         if ($success)
             return $next($request);

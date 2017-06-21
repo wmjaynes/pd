@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
@@ -23,10 +24,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link"
-                       href="{{route('aggregate.index',['organization'=>Auth::user()->currentOrganization->id])}}">Aggregates</a>
-                </li>
+                @if (isset(Auth::user()->currentOrganization))
+                    <li class="nav-item"> SOMETHING
+                        <a class="nav-link"
+                        href="{{route('aggregate.index',['organization'=>Auth::user()->currentOrganization->id])}}">Aggregates</a>
+                    </li>
+                @endif
 
 
                 <li class="nav-item dropdown">

@@ -37,8 +37,14 @@ class HomeController extends Controller
             Log::debug('home: '.$organization);
         }
 
-        $activeOrganization = $user->currentOrganization;
-        Log::debug('home:index: activeOrg: '.$activeOrganization);
+        if (isset($user->currentOrganization)) {
+            Log::debug('home:index - currentOrganization is set');
+        }
+        else {
+            Log::debug('home:index - currentOrganization is NOT set');
+        }
+        $currentOrganization = $user->currentOrganization;
+        Log::debug('home:index: activeOrg: '.$currentOrganization);
 //        $userRole = $oru->role;
 
 //        $organizations = Organization::orderBy('name', 'asc')->get();
@@ -47,6 +53,6 @@ class HomeController extends Controller
             Log::debug('home'.$organization->pivot->role);
         }
 
-        return view('home', ['aorg'=>$activeOrganization]);
+        return view('home', ['currentOrganization'=>$currentOrganization, 'organizations'=>$user->organizations]);
     }
 }
