@@ -31,3 +31,4 @@ Route::patch('/aggregate/{organization}', 'AggregateController@update')->name('a
 
 Route::get('/user/{user}', 'UserController@show')->name('user.show');
 
+Route::get('/administer/{organization}', 'AdministerController@show')->name('admin.org');

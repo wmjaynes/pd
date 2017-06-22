@@ -19,10 +19,12 @@
         </ul>
 <hr>
         <ul>
-            @foreach($user->organizationRoleUsers as $oru)
-                <li>User: {{$oru->user->id}} : {{$oru->user->name}} : {{$oru->user->email}}</li>
-                <li>Org: {{$oru->organization->id}} : {{$oru->organization->name}}</li>
-                <li>Role: {{$oru->role->name}}</li>
+            @foreach($user->organizations as $org)
+                <li>
+                    <a href="{{route('eventsfor.show',['organization'=>$org->id])}}">{{ $org->name }}</a> :
+                    {{$org->pivot->role->name}}
+                </li>
+
             @endforeach
         </ul>
 

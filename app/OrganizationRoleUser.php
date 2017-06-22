@@ -28,4 +28,8 @@ class OrganizationRoleUser extends Pivot
     {
         return $this->belongsTo('App\Role');
     }
+
+    public function isAdmin() {
+        return $this->role->name == 'administrator';
+    }
 }

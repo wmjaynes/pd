@@ -25,7 +25,7 @@
                     <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
                 </li>
                 @if (isset(Auth::user()->currentOrganization))
-                    <li class="nav-item"> SOMETHING
+                    <li class="nav-item">
                         <a class="nav-link"
                         href="{{route('aggregate.index',['organization'=>Auth::user()->currentOrganization->id])}}">Aggregates</a>
                     </li>
