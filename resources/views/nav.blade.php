@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
@@ -14,23 +13,25 @@
                 <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
             </li>
 
-            @if(Auth::user())
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('events.index') }}">Events</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/venue">Venues</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
-                </li>
-                @if (isset(Auth::user()->currentOrganization))
-                    <li class="nav-item">
-                        <a class="nav-link"
-                        href="{{route('aggregate.index',['organization'=>Auth::user()->currentOrganization->id])}}">Aggregates</a>
-                    </li>
-                @endif
+            @if(Auth::check())
 
+                @if(Auth::user()->organizations->isNotEmpty())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('events.index') }}">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/venue">Venues</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
+                    </li>
+                    @if (isset(Auth::user()->currentOrganization))
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{route('aggregate.index',['organization'=>Auth::user()->currentOrganization->id])}}">Aggregates</a>
+                        </li>
+                    @endif
+                @endif
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"

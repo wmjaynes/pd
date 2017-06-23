@@ -37,12 +37,11 @@ class HomeController extends Controller
             Log::debug('home: '.$organization);
         }
 
-        if (isset($user->currentOrganization)) {
-            Log::debug('home:index - currentOrganization is set');
+        if ($user->organizations->isNotEmpty() and ! isset($user->currentOrganization)){
+            $user->currentOrganization()->associate($user->organizations()->first());
+            $user->save();
         }
-        else {
-            Log::debug('home:index - currentOrganization is NOT set');
-        }
+
         $currentOrganization = $user->currentOrganization;
         Log::debug('home:index: activeOrg: '.$currentOrganization);
 //        $userRole = $oru->role;
