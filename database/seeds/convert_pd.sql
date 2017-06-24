@@ -36,14 +36,9 @@ SET ev.venue_id = ve.id
 WHERE ve.event_id = ev.id;    
 
 insert into aggregates (aggregator_id, aggregatee_id)
-select id, id from organizations;
+select OrgID, FeedOrgId from tblChannels;
 
-insert into aggregates (aggregator_id, aggregatee_id)
-values (135, 797);
-insert into aggregates (aggregator_id, aggregatee_id)
-values (135, 780);
-insert into aggregates (aggregator_id, aggregatee_id)
-values (135, 785);
+
 
 
   
