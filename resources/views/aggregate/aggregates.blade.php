@@ -10,7 +10,7 @@
 
         <div class='row'>
             <div class='col-md-6'>
-                <p>{{$organization->name}} displays events from the following organizations:</p>
+                <p>{{$organization->name}} displays events from the following {{$organization->aggregateesNotMe()->count()}} organizations:</p>
 
                 {!! Form::open(['route' => ['aggregate.destroy', $organization->id], 'method' => 'delete'])  !!}
 
@@ -55,7 +55,7 @@
                     {!! Form::close() !!}
 
                     @if($searchOrgs)
-                        {!! Form::open(['route' => ['aggregate.search', $organization->id], 'method' => 'patch']) !!}
+                        {!! Form::open(['route' => ['aggregate.update', $organization->id], 'method' => 'patch']) !!}
                         <div class="form-group row">
                             <div class="col-sm-10">
                                 <button type="submit" value='addnew' name='addnew' class="btn btn-primary btn-sm">Add
@@ -63,11 +63,11 @@
                                 </button>
                             </div>
                         </div>
-                        @foreach($searchOrgs as $agg)
+                        @foreach($searchOrgs as $org)
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name='addOrg[]' value="{{$agg->id}}">
-                                    {{$agg->id}}: {{$agg->name}} ({{$agg->city}})
+                                    <input type="checkbox" name='addOrg[]' value="{{$org->id}}">
+                                    {{$org->id}}: {{$org->name}} ({{$org->city}})
                                 </label>
                             </div>
                         @endforeach

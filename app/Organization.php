@@ -48,6 +48,7 @@ class Organization extends Model
     }
 
     public function aggregateesNotMe() {
-        return $this->aggregatees->except(['id' => $this->id]);
+        $orgs = $this->aggregatees()->orderBy('name', 'asc')->get();
+        return $orgs->except(['id' => $this->id]);
     }
 }

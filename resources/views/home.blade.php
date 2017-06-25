@@ -20,7 +20,7 @@
                             <p>You do not have any organizations for which you can add events. Please contact <strong>events@aactmad
                                     .org</strong> and indicate the organization(s) with which you would like to be associated.</p>
                         @else
-                            <p>Organizations for which you can create events:
+                            <p>Below are organizations for which you can create events. Click on one to create an event for it:
                             <ul>
                                 @foreach(Auth::user()->organizations as $org)
                                     <li>

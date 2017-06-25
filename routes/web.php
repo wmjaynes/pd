@@ -31,4 +31,7 @@ Route::patch('/aggregate/{organization}', 'AggregateController@update')->name('a
 
 Route::get('/user/{user}', 'UserController@show')->name('user.show');
 
-Route::get('/administer/{organization}', 'AdministerController@show')->name('admin.org');
+Route::get('/administer/{organization}', 'AdministerController@show')->name('administer.org.show');
+Route::post('/administer/{organization}', 'AdministerController@search')->name('administer.org.search');
+Route::delete('/administer/{organization}', 'AdministerController@destroy')->name('administer.org.destroy');
+Route::patch('/administer/{organization}', 'AdministerController@update')->name('administer.org.update');

@@ -56,7 +56,7 @@ class AggregateController extends Controller
                     $include = false;
             }
             if ($include)
-                $newSearchOrgs [] = $aorg;
+                $newSearchOrgs [] = $sorg;
         }
 
         if (count($newSearchOrgs) == 0)

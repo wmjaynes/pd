@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'will@jaynes.org',
             'userid' => 'wmjaynes',
             'password' => 'william',
+            'superuser' => 1,
 //            'activeOrganization' => 135,
         ]);
 

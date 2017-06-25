@@ -15,13 +15,15 @@ class CreateOrganizationUserTable extends Migration
     {
         Schema::create('organization_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('organization_id')->unsigned()->index();
+            $table->integer('organization_id')->unsigned();
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
-            $table->integer('role_id')->unsigned()->index()->default(2);
+            $table->integer('role_id')->unsigned()->default(2);
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('no action');
             $table->timestamps();
+
+            $table->unique(['organization_id', 'user_id']);
         });
     }
 
