@@ -26,12 +26,15 @@ class AdministerController extends Controller
 
         $searchUsers = User::where('name', 'like', '%' . $searchTerm . '%')->orWhere('email', 'like', '%' . $searchTerm . '%')->orderBy('name', 'asc')->get();
 
-        $newSearchUsers = $searchUsers;
+        $orgUsers = $organization->users;
+        $newSearchUsers = array();
+        foreach ($searchUsers as $user) {
+            if (!$orgUsers->contains('id', $user->id))
+                $newSearchUsers[] = $user;
+        }
 
         if (count($newSearchUsers) == 0)
             $message = "No results found";
-
-//        return redirect()->route('aggregate.search', [$organization]);
 
         return view('administer.administer', ['organization' => $organization, 'user' => $user, 'searchUsers' => $newSearchUsers,])->with('searchTerm', $searchTerm);
     }
@@ -41,12 +44,24 @@ class AdministerController extends Controller
         $user = \Auth::user();
         $addnew = $request->addnew;
         $roleId = ($addnew == 'addeditor' ? 2 : 3);
-        $addUsers = $request->addUser;
-        if (isset($addUsers)) {
-            foreach ($addUsers as $userId) {
-                $organization->users()->attach($userId, ['role_id' => $roleId]);
+        $orgUsers = $organization->users;
+        $addUserIds = $request->addUser;
+        if (isset($addUserIds)) {
+            foreach ($addUserIds as $userId) {
+                if (!$orgUsers->contains('id', $userId))
+                    $organization->users()->attach($userId, ['role_id' => $roleId]);
             }
         }
+
+        return view('administer.administer', ['organization' => $organization, 'user' => $user, 'searchUsers' => [],]);
+    }
+
+    public function destroy(Request $request, Organization $organization)
+    {
+        $user = \Auth::user();
+        $usersToDelete = $request->delUser;
+        if (count($usersToDelete) > 0)
+            $organization->users()->detach($usersToDelete);
 
         return view('administer.administer', ['organization' => $organization, 'user' => $user, 'searchUsers' => [],]);
     }

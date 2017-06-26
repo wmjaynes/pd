@@ -16,18 +16,33 @@
                 <p>The following users are either editors or administrators for {{$organization->name}}.
                 <ul>
                     <li>Editors may create and edit any events for an organization.</li>
-                    <li>Administrators are editors and, in addition, may add other users as editors or administrators.</li>
+                    <li>Administrators are editors and, in addition, may add other users as editors or administrators.
+                    </li>
                 </ul>
                 </p>
 
                 @include('errors._errors')
 
+                {!! Form::open(['route' => ['administer.org.destroy', $organization->id], 'method' => 'delete'])  !!}
 
-                <ul>
-                    @foreach($organization->users as $user)
-                        <li>{{$user->nameOrEmail()}} : {{$user->pivot->role->name}}</li>
-                    @endforeach
-                </ul>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" value='remove' name='remove' class="btn btn-primary btn-sm">Remove
+                            Selected
+                        </button>
+                    </div>
+                </div>
+
+                @foreach($organization->users as $user)
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name='delUser[]' value="{{$user->id}}">
+                            {{$user->id}}: {{$user->name}} ({{$user->email}})
+                        </label>
+                    </div>
+                @endforeach
+                {!! Form::close()  !!}
+
             </div>
             <div class='col-md-6'>
                 <p>Search for users you would like to add as an editor or administrator:</p>
@@ -55,7 +70,8 @@
                                 <button type="submit" value='addeditor' name='addnew' class="btn btn-primary btn-sm">Add
                                     Selected as Editor
                                 </button>
-                                <button type="submit" value='addadministrator' name='addnew' class="btn btn-primary btn-sm">Add
+                                <button type="submit" value='addadministrator' name='addnew'
+                                        class="btn btn-primary btn-sm">Add
                                     Selected as Administrator
                                 </button>
                             </div>
