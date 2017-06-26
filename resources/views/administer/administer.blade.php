@@ -33,11 +33,13 @@
                     </div>
                 </div>
 
-                @foreach($organization->users as $user)
+                @foreach($organization->users()->get() as $uuser)
+                    @php($user->id == $uuser->id ? $disabled="disabled='disabled'" : $disabled="")
+                    @php($user->id == $uuser->id ? $title="You can not delete yourself.":$title="")
                     <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name='delUser[]' value="{{$user->id}}">
-                            {{$user->id}}: {{$user->name}} ({{$user->email}})
+                        <label title="{{$title}}">
+                                <input type="checkbox" name='delUser[]' value="{{$uuser->id}}" {{$disabled}}>
+                            {{$uuser->id}}: {{$uuser->name}} ({{$uuser->email}})
                         </label>
                     </div>
                 @endforeach
@@ -86,7 +88,7 @@
                         @endforeach
                         {!! Form::close() !!}
                     @else()
-                        <p class="alert">No results found</p>
+                        <p class="alert">{{isset($message)?$message:""}}</p>
                 @endif
 
             </div>

@@ -33,15 +33,16 @@ class AdministerController extends Controller
                 $newSearchUsers[] = $user;
         }
 
+        $message = null;
         if (count($newSearchUsers) == 0)
             $message = "No results found";
 
-        return view('administer.administer', ['organization' => $organization, 'user' => $user, 'searchUsers' => $newSearchUsers,])->with('searchTerm', $searchTerm);
+        return view('administer.administer', ['organization' => $organization, 'user' => $user, 'searchUsers' => $newSearchUsers,])->with('searchTerm', $searchTerm)->with('message', $message);
     }
 
     public function update(Request $request, Organization $organization)
     {
-        $user = \Auth::user();
+
         $addnew = $request->addnew;
         $roleId = ($addnew == 'addeditor' ? 2 : 3);
         $orgUsers = $organization->users;
@@ -52,6 +53,7 @@ class AdministerController extends Controller
                     $organization->users()->attach($userId, ['role_id' => $roleId]);
             }
         }
+        $user = \Auth::user();
 
         return view('administer.administer', ['organization' => $organization, 'user' => $user, 'searchUsers' => [],]);
     }
