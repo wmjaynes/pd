@@ -10,13 +10,14 @@
                     Organization</a>
 
             </button>
-            {{ Auth::user()->currentOrganization->name }}</h3>
+        </h3>
 
         <hr>
 
         @include('errors._errors')
 
         @if($organizations)
+            <p>{{count($organizations)}} Organizations</p>
             <ul>
                 @foreach($organizations as $organization)
                     @php($route = route("organization.destroy",['$organization'=> $organization->id]))
@@ -31,10 +32,14 @@
                                 data-deleteModalLabel='Delete Organization' data-route="{{$route}}">
                             Delete
                         </button>
+                        <button type="button" class="btn btn-secondary">
+                            <a href="/eventsfor/{{$organization->id }}">Events</a>
+                        </button>
+                        <button type="button" class="btn btn-secondary">
+                            <a href="/aggregate/{{$organization->id }}">Aggregates</a>
+                        </button>
 
-                        {{$organization->name}}
-
-                        <a href="{{route('aggregate.index', ['id' => $organization->id])}}">Aggregates</a>
+                        {{$organization->id}} : {{$organization->name}}
 
                     </li>
 
