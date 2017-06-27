@@ -40,17 +40,15 @@ class LoginController extends Controller
 
     public function authenticate()
     {
-        if (Auth::attempt(['userId' => $userId, 'password' => $password, 'active' => 1, 'blocked' => 0])) {
+        Log::debug("authenticate: $userId : $password");
+        if (Auth::attempt(['email' => $userId, 'password' => $password, 'active' => 1, 'blocked' => 0])) {
             // Authentication passed...
-            Log::debug("authenticate: Auth::user()->organizations()->first()");
-            session(['currentOrganization' => Auth::user()->organizations()->first()]);
-            Auth::user()->setActiveOrganization(Auth::user()->organizations()->first());
             return redirect()->intended('home');
         }
     }
 
     public function username()
     {
-        return 'userId';
+        return 'email';
     }
 }

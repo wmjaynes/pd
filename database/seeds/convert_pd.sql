@@ -1,5 +1,8 @@
-insert into users 
-(select orgid, OrgContactName, OrgEmail, OrgUserName, OrgPW, NULL, NULL, OrgLastLogin, 0, 1, 0, NULL, OrgRegDate, OrgLastLogin from tblOrgs);
+
+# insert into users
+# (select orgid, OrgContactName, OrgEmail, OrgUserName, OrgPW, NULL, NULL, OrgLastLogin, 0, 1, 0, NULL, OrgRegDate, OrgLastLogin from tblOrgs);
+
+
 
 insert into organizations
 (id, name, address1, address2, city, state, postalCode, email, phone, contactName, url, logoUrl, description)
@@ -8,8 +11,11 @@ orgid, orgname, orgaddress1, orgaddress2, orgcity, orgstate, orgzip, orgemail, o
 orgdesc
 from tblOrgs;
 
-insert into organization_user (organization_id, user_id, role_id, created_at, updated_at)
-select id, id, 2, current_timestamp(), current_timestamp() from organizations;
+insert into users
+  select * from users_save;
+
+# insert into organization_user (organization_id, user_id, role_id, created_at, updated_at)
+# select id, id, 2, current_timestamp(), current_timestamp() from organizations;
   
 insert into venues
 (name, streetAddress, addressLocality, addressRegion, postalCode, created_by, event_id, created_at, updated_at)

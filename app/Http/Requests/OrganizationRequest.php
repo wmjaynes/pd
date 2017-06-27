@@ -26,6 +26,8 @@ class OrganizationRequest extends FormRequest
         return [
             'name' => 'required|min:5',
             'email' => 'required|email',
+            'city' => 'required',
+            'state' => 'required',
             'url' => 'nullable|url',
             'logoUrl' => 'nullable|url',
             'facebookUrl' => 'nullable|url',

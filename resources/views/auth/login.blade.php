@@ -7,18 +7,19 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
+                    @include('errors._errors')
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('userId') ? ' has-error' : '' }}">
-                            <label for="userId" class="col-md-4 control-label">User ID</label>
+                            <label for="email" class="col-md-4 control-label">User ID</label>
 
                             <div class="col-md-6">
-                                <input id="userId" type="userId" class="form-control" name="userId" value="{{ old('userId') }}" required autofocus>
+                                <input id="userId" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
 
-                                @if ($errors->has('userId'))
+                                @if ($errors->has('email'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('userId') }}</strong>
+                                        <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
                             </div>

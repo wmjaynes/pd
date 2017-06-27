@@ -39,7 +39,7 @@
                     <div class="checkbox">
                         <label title="{{$title}}">
                                 <input type="checkbox" name='delUser[]' value="{{$uuser->id}}" {{$disabled}}>
-                            {{$uuser->id}}: {{$uuser->name}} ({{$uuser->email}})
+                            {{$uuser->id}}: {{$uuser->name}} ({{$uuser->email}}) ({{$uuser->pivot->role->name}})
                         </label>
                     </div>
                 @endforeach

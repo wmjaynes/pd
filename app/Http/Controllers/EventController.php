@@ -31,9 +31,9 @@ class EventController extends Controller
         $events = null;
         $org = Auth::user()->currentOrganization;
         Log::debug("events index org: $org");
-        $oldestEvent = $org->events()->orderBy('startDate', 'asc')->first();
-        $oldestYear = $oldestEvent->startDate->year;
         $currentYear = Carbon::today()->year;
+        $oldestEvent = $org->events()->orderBy('startDate', 'asc')->first();
+        $oldestYear = isset($oldestEvent) ? $oldestEvent->startDate->year : $currentYear;
         for ($year = $currentYear; $year >= $oldestYear; $year--) {
             $years [$year] = $year;
         }
