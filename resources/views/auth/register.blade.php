@@ -7,6 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
                 <div class="panel-body">
+                    @include('errors._errors')
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
@@ -38,19 +39,19 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('userId') ? ' has-error' : '' }}">
-                            <label for="userId" class="col-md-4 control-label">User ID</label>
+                        {{--<div class="form-group{{ $errors->has('userId') ? ' has-error' : '' }}">--}}
+                            {{--<label for="userId" class="col-md-4 control-label">User ID</label>--}}
 
-                            <div class="col-md-6">
-                                <input id="email" type="text" class="form-control" name="userId" value="{{ old('userId') }}" required>
+                            {{--<div class="col-md-6">--}}
+                                {{--<input id="email" type="text" class="form-control" name="userId" value="{{ old('userId') }}" required>--}}
 
-                                @if ($errors->has('userId'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('userId') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                                {{--@if ($errors->has('userId'))--}}
+                                    {{--<span class="help-block">--}}
+                                        {{--<strong>{{ $errors->first('userId') }}</strong>--}}
+                                    {{--</span>--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
