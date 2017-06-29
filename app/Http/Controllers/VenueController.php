@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Venue;
+use App\Http\Requests\VenueRequest;
 use Illuminate\Http\Request;
 
 class VenueController extends Controller
@@ -16,7 +17,7 @@ class VenueController extends Controller
     {
         $venues = Venue::visible()->orderBy('name', 'asc')->get();
 
-            return view('venue.venues', ['venues' => $venues]);
+        return view('venue.venues', ['venues' => $venues]);
     }
 
     /**
@@ -26,24 +27,26 @@ class VenueController extends Controller
      */
     public function create()
     {
-        //
+        return view('venue.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VenueRequest $request)
     {
-        //
+        $venue = new Venue($request->all());
+//        $venue->save();
+        return redirect('venue');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Venue  $venue
+     * @param  \App\Venue $venue
      * @return \Illuminate\Http\Response
      */
     public function show(Venue $venue)
@@ -54,7 +57,7 @@ class VenueController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Venue  $venue
+     * @param  \App\Venue $venue
      * @return \Illuminate\Http\Response
      */
     public function edit(Venue $venue)
@@ -65,8 +68,8 @@ class VenueController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Venue  $venue
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Venue $venue
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Venue $venue)
@@ -77,7 +80,7 @@ class VenueController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Venue  $venue
+     * @param  \App\Venue $venue
      * @return \Illuminate\Http\Response
      */
     public function destroy(Venue $venue)

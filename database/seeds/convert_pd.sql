@@ -186,7 +186,7 @@ where e.venue_id in
 update events e
 set e.venue_id = 386
 where e.venue_id in
-      (SELECT venues.id FROM venues where name like '%central%' and addressLocality = 'Detroit');
+      (SELECT * FROM venues where streetAddress like '%23 e%');
 
 delete from venues
 where id not in

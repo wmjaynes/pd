@@ -39,7 +39,7 @@ class OrganizationRequest extends FormRequest
     {
         return [
             'url.url' => 'The web address format is invalid',
-            'facebookUrl' => 'The Facebook address format is invalid',
+            'facebookUrl.url' => 'The Facebook address format is invalid',
             'logoUrl.url' => 'The logo image address format is invalid',
         ];
     }

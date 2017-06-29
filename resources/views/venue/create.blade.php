@@ -11,9 +11,9 @@
             @include('errors._errors')
         </div>
 
-    {!! Form::open(['route'=>'organization.store']) !!}
+    {!! Form::open(['route'=>'venue.store']) !!}
 
-    @include('organization._form', ['submitButtonText' => 'Create Organization'])
+    @include('venue._form', ['submitButtonText' => 'Create Venue'])
 
     {!! Form::close() !!}
 
