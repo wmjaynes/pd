@@ -16,12 +16,14 @@ class OrganizationController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $organizations = Organization::orderBy('name', 'asc')->get();
+        if (\Auth::user()->superuser)
+            $organizations = Organization::orderBy('name', 'asc')->get();
+        else
+            $organizations = \Auth::user()->organizations()->orderBy('name', 'asc')->get();
 
         return view('organization.organizations', ['organizations' => $organizations]);
     }

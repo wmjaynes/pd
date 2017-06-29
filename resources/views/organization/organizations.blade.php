@@ -26,6 +26,9 @@
                         <button type="button" class="btn btn-secondary">
                             <a href="/organization/{{$organization->id }}/edit">Edit</a>
                         </button>
+                        <button type="button" class="btn btn-secondary">
+                            <a href="/administer/{{$organization->id }}">Administer</a>
+                        </button>
                         <button type="button" class="btn btn-secondary" data-toggle='modal'
                                 data-target='#delete-modal' data-deleteid='{{$organization->id}}'
                                 data-deletename='{{$organization->name}}'
@@ -39,7 +42,7 @@
                             <a href="/aggregate/{{$organization->id }}">Aggregates</a>
                         </button>
 
-                        {{$organization->id}} : {{$organization->name}}
+                        {{$organization->id}} : {{$organization->name}} : #events - {{$organization->events->count()}}
 
                     </li>
 

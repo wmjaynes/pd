@@ -10,7 +10,7 @@
 
         <div class='row'>
             <div class='col-md-6'>
-                <p>{{$organization->name}} displays events from the following {{$organization->aggregateesNotMe()->count()}} organizations:</p>
+                <p>{{$organization->name}} can aggregate the events from the following {{$organization->aggregateesNotMe()->count()}} organizations, combining them into one calendar:</p>
 
                 {!! Form::open(['route' => ['aggregate.destroy', $organization->id], 'method' => 'delete'])  !!}
 
