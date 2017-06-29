@@ -14,7 +14,9 @@ class VenueController extends Controller
      */
     public function index()
     {
-        //
+        $venues = Venue::visible()->orderBy('name', 'asc')->get();
+
+            return view('venue.venues', ['venues' => $venues]);
     }
 
     /**

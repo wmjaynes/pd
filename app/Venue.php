@@ -15,6 +15,11 @@ class Venue extends Model
         'postalCode'
     ];
 
+    public function scopeVisible($query)
+    {
+        $query->where('visible', '=', 1);
+    }
+
     public function events()
     {
         return $this->hasMany('App\Event');
