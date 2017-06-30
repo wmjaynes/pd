@@ -12,6 +12,7 @@
         </div>
 
     {!! Form::model($venue, ['method' => 'patch', 'route'=>['venue.update', $venue->id]]) !!}
+    {!! Form::hidden('id', Null) !!}
 
     @include('venue._form', ['submitButtonText' => 'Update Venue'])
 

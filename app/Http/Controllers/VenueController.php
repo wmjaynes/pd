@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class VenueController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -74,7 +79,10 @@ class VenueController extends Controller
      */
     public function update(VenueRequest $request, Venue $venue)
     {
-        //
+        $venue->fill($request->all());
+        $venue->save();
+
+        return view('venue.edit', compact('venue'));
     }
 
     /**
@@ -85,6 +93,14 @@ class VenueController extends Controller
      */
     public function destroy(Venue $venue)
     {
-        //
+        $deleteErrors = [];
+        if ($venue->events->isNotEmpty()) {
+            $deleteErrors[] = "The venue, $venue->name, has events associated with it and therefore can not be deleted.";
+            return redirect('venue')->withErrors($deleteErrors);
+        }
+
+        $venue->delete();
+
+        return redirect('venue');
     }
 }

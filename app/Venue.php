@@ -12,7 +12,8 @@ class Venue extends Model
         'addressLocality',
         'addressRegion',
         'addressCountry',
-        'postalCode'
+        'postalCode',
+        'visible',
     ];
 
     public function scopeVisible($query)
