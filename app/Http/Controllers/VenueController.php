@@ -39,7 +39,7 @@ class VenueController extends Controller
     public function store(VenueRequest $request)
     {
         $venue = new Venue($request->all());
-//        $venue->save();
+        $venue->save();
         return redirect('venue');
     }
 
@@ -62,7 +62,7 @@ class VenueController extends Controller
      */
     public function edit(Venue $venue)
     {
-        //
+        return view('venue.edit', compact('venue'));
     }
 
     /**
@@ -72,7 +72,7 @@ class VenueController extends Controller
      * @param  \App\Venue $venue
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Venue $venue)
+    public function update(VenueRequest $request, Venue $venue)
     {
         //
     }

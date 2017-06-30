@@ -6,43 +6,43 @@
 
 insert into organizations
 (id, name, address1, address2, city, state, postalCode, email, phone, contactName, url, logoUrl, description)
-select 
-orgid, orgname, orgaddress1, orgaddress2, orgcity, orgstate, orgzip, orgemail, orgphone, orgcontactname, orgurl, orgheaderurl,
-orgdesc
-from tblOrgs;
+  select
+    orgid, orgname, orgaddress1, orgaddress2, orgcity, orgstate, orgzip, orgemail, orgphone, orgcontactname, orgurl, orgheaderurl,
+    orgdesc
+  from tblOrgs;
 
 insert into users
   select * from users_save;
 
 # insert into organization_user (organization_id, user_id, role_id, created_at, updated_at)
 # select id, id, 2, current_timestamp(), current_timestamp() from organizations;
-  
+
 insert into venues
 (name, streetAddress, addressLocality, addressRegion, postalCode, created_by, event_id, created_at, updated_at)
-select  EventVenueName, EventStreet, EventCity, EventState, EventZip, OrgID, EventID, current_timestamp(), current_timestamp()
-from tblEvents;
+  select  EventVenueName, EventStreet, EventCity, EventState, EventZip, OrgID, EventID, current_timestamp(), current_timestamp()
+  from tblEvents;
 
- insert into events
- (id, organization_id, name, startDate, endDate, timeInfo,  description,
-  category, contactName, phone, email, url, ticketInfo, free, 
-  imageUrl, flyerUrl, ticketUrl, altMapUrl,
-  published, tags,  created_at, updated_at)
-select EventID, OrgID, EventName, EventStart, EventEnd, EventTimeDesc,  EventDesc,
-  EventCategory, EventContactName, EventPhone, EventEmail, EventURL, EventTickets, EventFree, 
-  EventImageURL,EventPrURL,EventTicketURL, EventAltMapURL,
-  PageVis, EventTags, EventEntryTimestamp, EventLastEdit
-from tblEvents;
+insert into events
+(id, organization_id, name, startDate, endDate, timeInfo,  description,
+ category, contactName, phone, email, url, ticketInfo, free,
+ imageUrl, flyerUrl, ticketUrl, altMapUrl,
+ published, tags,  created_at, updated_at)
+  select EventID, OrgID, EventName, EventStart, EventEnd, EventTimeDesc,  EventDesc,
+    EventCategory, EventContactName, EventPhone, EventEmail, EventURL, EventTickets, EventFree,
+    EventImageURL,EventPrURL,EventTicketURL, EventAltMapURL,
+    PageVis, EventTags, EventEntryTimestamp, EventLastEdit
+  from tblEvents;
 
 
 UPDATE events ev,
-(   SELECT id, event_id 
-    FROM venues 
-) ve
+  (   SELECT id, event_id
+      FROM venues
+  ) ve
 SET ev.venue_id = ve.id
-WHERE ve.event_id = ev.id;    
+WHERE ve.event_id = ev.id;
 
 insert into aggregates (aggregator_id, aggregatee_id)
-select OrgID, FeedOrgId from tblChannels;
+  select OrgID, FeedOrgId from tblChannels;
 
 # ###############
 # Clean up the venues. Remove most of duplicates.
@@ -186,14 +186,54 @@ where e.venue_id in
 update events e
 set e.venue_id = 386
 where e.venue_id in
-      (SELECT * FROM venues where streetAddress like '%23 e%');
+      (SELECT venues.id FROM venues where streetAddress like '%23 e%');
+
+update events e
+set e.venue_id = 2879
+where e.venue_id in
+      (SELECT venues.id FROM venues where streetAddress like '%324 west%');
+
+update events e
+set e.venue_id = 3092
+where e.venue_id in
+      (SELECT venues.id FROM venues where streetAddress like '%2068 mi%');
+
+update events e
+set e.venue_id = 1389
+where e.venue_id in
+      (SELECT venues.id FROM venues where streetAddress like '%1301 pi%');
+update venues v
+  set v.name = 'Brennan Community Center'
+where v.id = 1389;
+
+update events e
+set e.venue_id = 1149
+where e.venue_id in
+      (SELECT venues.id FROM venues where streetAddress like '%1580 d%');
+update venues v
+set v.name = "Gretchen's House Child Care - Dhu Varren"
+where v.id = 1149;
+
+update events e
+set e.venue_id = 1726
+where e.venue_id in
+      (SELECT venues.id FROM venues where streetAddress like '%1625 tr%');
+update venues v
+set v.name = "Gretchen's House Child Care - Traver"
+where v.id = 1726;
+
+update events e
+set e.venue_id = 2240
+where e.venue_id in
+      (SELECT venues.id FROM venues where streetAddress like '%2095 pa%');
 
 delete from venues
 where id not in
       (select distinct venue_id from events);
 
 UPDATE venues SET visible = 1
-WHERE id IN (386, 1, 12, 16, 505, 43, 44, 116, 144, 47, 151, 267, 421, 12, 410, 1305, 1726, 577, 1153, 1296, 1807, 1567, 2259, 1452, 2403, 150, 1569, 139 );
+WHERE id IN (1726, 1149, 2240,1389, 3092, 2879, 386, 1, 12, 16, 505, 43, 44, 116, 144, 47, 151, 267, 421,
+            12, 410, 1305, 1726, 577, 1153, 1296, 1807, 1567, 2259, 1452, 2403, 150, 1569, 139 );
 
 
 

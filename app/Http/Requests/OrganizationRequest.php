@@ -24,7 +24,7 @@ class OrganizationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5',
+            'name' => 'required|min:5|unique:organizations,name,',
             'email' => 'required|email',
             'city' => 'required',
             'state' => 'required',

@@ -43,10 +43,10 @@ class VenueRequest extends FormRequest
     {
         $streetAddress = $this->input('streetAddress');
         $addressLocality = $this->input('addressLocality');
-        $addressRegion = $this->input('addressRegion')
-        $venues = Venue::where('streetAddress', $streetAddress)->
+        $addressRegion = $this->input('addressRegion');
+        $venues = Venue::visible()->where('streetAddress', $streetAddress)->
             where('addressLocality', $addressLocality)->
-            where('addressRegion', $addressRegion)->visible()->get();
+            where('addressRegion', $addressRegion)->get();
         if ($venues->isEmpty())
             return false;
         else return true;
