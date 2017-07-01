@@ -47,6 +47,7 @@ class OrganizationController extends Controller
     public function store(OrganizationRequest $request)
     {
         $organization = new Organization($request->all());
+        $organization->createdBy()->associate(\Auth::user());
         $organization->save();
 
         return redirect('organization');

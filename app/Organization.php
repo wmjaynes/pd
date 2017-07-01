@@ -51,6 +51,11 @@ class Organization extends Model
         return $this->belongsToMany('App\Organization', 'aggregates', 'aggregator_id', 'aggregatee_id');
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+
     public function aggregateesNotMe() {
         $orgs = $this->aggregatees()->orderBy('name', 'asc')->get();
         return $orgs->except(['id' => $this->id]);

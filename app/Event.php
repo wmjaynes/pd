@@ -60,4 +60,9 @@ class Event extends Model
     {
         return $this->belongsTo('App\Organization');
     }
+
+    public function createdBy()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
 }
