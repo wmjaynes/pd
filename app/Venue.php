@@ -18,12 +18,17 @@ class Venue extends Model
 
     public function scopeVisible($query)
     {
-        $query->where('visible', '=', 1);
+        $query->where('visible', '=', 1)->orderBy('name', 'asc');
     }
 
     public function events()
     {
         return $this->hasMany('App\Event');
+    }
+
+    public function nameCity()
+    {
+        return "$this->name, $this->addressLocality, $this->addressRegion";
     }
 
     public function fullAddress()

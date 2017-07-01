@@ -49,6 +49,18 @@
 </fieldset>
 
 <fieldset class='form-group'>
+    <legend>Venue:</legend>
+    <div class="form-group row">
+        {!! Form::label('venue', 'Previous Venues', ['class'=>'form-control-label col-sm-3']) !!}
+        {!! Form::select('venue', $venueDropdown,  $currentVenueId, ['class'=>'form-control col-sm-6']) !!}
+    </div>
+    <div class="form-group row">
+        {!! Form::label('allvenue', 'All Venues', ['class'=>'form-control-label col-sm-3']) !!}
+        {!! Form::select('allvenue', $allVenuesDropdown, null, ['class'=>'form-control col-sm-6', 'placeholder'=>"All Venues..."]) !!}
+    </div>
+</fieldset>
+
+<fieldset class='form-group'>
     <legend>Admission (tickets, registration, admission info):</legend>
     <div class="form-group row">
         {!! Form::label('ticketInfo', ' ', ['class'=>'form-control-label col-sm-2']) !!}

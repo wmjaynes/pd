@@ -37,6 +37,10 @@ class Organization extends Model
         return $this->hasMany('App\Event');
     }
 
+    public function venues() {
+        return $this->hasManyThrough('App\Venue', 'App\Event');
+    }
+
     public function aggregators()
     {
         return $this->belongsToMany('App\Organization', 'aggregates', 'aggregatee_id', 'aggregator_id');

@@ -51,14 +51,12 @@ class Event extends Model
         $query->where('startDate', '>=', Carbon::now());
     }
 
-    public
-    function venue()
+    public function venue()
     {
         return $this->belongsTo('App\Venue');
     }
 
-    public
-    function organization()
+    public function organization()
     {
         return $this->belongsTo('App\Organization');
     }
