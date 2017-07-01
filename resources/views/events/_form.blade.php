@@ -58,13 +58,17 @@
         {!! Form::label('allvenue', 'All Venues', ['class'=>'form-control-label col-sm-3']) !!}
         {!! Form::select('allvenue', $allVenuesDropdown, null, ['class'=>'form-control col-sm-6', 'placeholder'=>"All Venues..."]) !!}
     </div>
+    <div class="form-group row">
+        {!! Form::label('venueDetail', 'Venue Detail', ['class'=>'form-control-label col-sm-3']) !!}
+        {!! Form::textarea('venueDetail', null, ['size'=>'50x2', 'class'=>'form-control col-sm-6', "placeholder"=>"e.g. 'Room C45' or 'Parking Lot F' or 'Please don't park in a numbered space.' "]) !!}
+    </div>
 </fieldset>
 
 <fieldset class='form-group'>
     <legend>Admission (tickets, registration, admission info):</legend>
     <div class="form-group row">
         {!! Form::label('ticketInfo', ' ', ['class'=>'form-control-label col-sm-2']) !!}
-        {!! Form::textarea('ticketInfo', null, ['class'=>'form-control col-sm-6']) !!}
+        {!! Form::textarea('ticketInfo', null, ['size'=>'50x2', 'class'=>'form-control col-sm-6']) !!}
     </div>
     <div class="form-group row">
         {!! Form::label('contactName', 'Contact Name', ['class'=>'form-control-label col-sm-2']) !!}

@@ -43,6 +43,9 @@
                                             <button type="button" class="btn btn-secondary">
                                                 <a href="/events/{{$event->id }}/edit">Edit</a>
                                             </button>
+                                            <button type="button" class="btn btn-secondary">
+                                                <a href="/events/{{$event->id }}/copy">Copy</a>
+                                            </button>
                                             <button type="button" class="btn btn-secondary" data-toggle='modal'
                                                     data-target='#delete-modal' data-deleteid='{{$event->id}}'
                                                     data-deletename='{{$event->name}}'
@@ -85,6 +88,9 @@
                                         <td>
                                             <button type="button" class="btn btn-secondary">
                                                 <a href="/events/{{$event->id }}/edit">Edit</a>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary">
+                                                <a href="/events/{{$event->id }}/copy">Copy</a>
                                             </button>
                                             <button type="button" class="btn btn-secondary" data-toggle='modal'
                                                     data-target='#delete-modal' data-deleteid='{{$event->id}}'

@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Delete the event: <span id="deletename"></span> ? This action can not be undone.</p>
+                <p>Delete the item: <span id="deletename"></span> ? This action can not be undone.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

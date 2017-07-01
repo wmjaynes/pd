@@ -151,6 +151,13 @@ class EventController extends Controller
         return redirect('events');
     }
 
+    public function copy(Event $event) {
+        $newevent = $event->replicate();
+        $newevent->published = false;
+        $newevent->save();
+        return redirect('events');
+    }
+
     protected function venueDropdown()
     {
         $org = Auth::user()->currentOrganization;

@@ -20,6 +20,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('/eventsfor/{organization}', 'EventController@show')->name('eventsfor.show');
 
+Route::get('/events/{event}/copy', 'EventController@copy')->name('events.copy');
+
 Route::resource('events', 'EventController');
 Route::resource('organization', 'OrganizationController');
 Route::resource('venue', 'VenueController');
