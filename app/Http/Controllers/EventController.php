@@ -91,6 +91,7 @@ class EventController extends Controller
 
         $event = new Event($input);
         $event->venue_id = $this->selectedVenueId($request);
+        $event->createdBy()->associate(\Auth::user());
 
         $org->events()->save($event);
         $event->save();
@@ -154,6 +155,7 @@ class EventController extends Controller
     public function copy(Event $event) {
         $newevent = $event->replicate();
         $newevent->published = false;
+        $event->createdBy()->associate(\Auth::user());
         $newevent->save();
         return redirect('events');
     }
