@@ -44,6 +44,7 @@ class VenueController extends Controller
     public function store(VenueRequest $request)
     {
         $venue = new Venue($request->all());
+        $venue->createdBy()->associate(\Auth::user());
         $venue->save();
         return redirect('venue');
     }

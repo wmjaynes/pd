@@ -26,6 +26,11 @@ class Venue extends Model
         return $this->hasMany('App\Event');
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo('App\User', 'created_by');
+    }
+
     public function nameCity()
     {
         return "$this->name, $this->addressLocality, $this->addressRegion";

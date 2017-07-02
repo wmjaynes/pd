@@ -25,30 +25,33 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $eventYear = null;
+        $year = null;
         if ($request->has('year'))
-            $eventYear = $request->input('year');
+            $year = $request->input('year');
         $events = null;
         $org = Auth::user()->currentOrganization;
         $currentYear = Carbon::today()->year;
         $oldestEvent = $org->events()->orderBy('startDate', 'asc')->first();
         $oldestYear = isset($oldestEvent) ? $oldestEvent->startDate->year : $currentYear;
-        for ($year = $currentYear; $year >= $oldestYear; $year--) {
-            $years [$year] = $year;
+        for ($yr = $currentYear; $yr >= $oldestYear; $yr--) {
+            $years [$yr] = $yr;
         }
 
-        If (is_null($eventYear)) {
+        If (is_null($year)) {
             $events = $org->events()->oldest('startDate')->future()->published()->get();
         } else {
-            $events = $org->events()->oldest('startDate')->published()->whereYear('startDate', $eventYear)->get();
+            $events = $org->events()->oldest('startDate')->published()->whereYear('startDate', $year)->get();
         }
-//        \DB::listen(function ($sql) {
-//            var_dump($sql);
-//        });
+        //        \DB::listen(function ($sql) {
+        //            var_dump($sql);
+        //        });
 
         $hidden = $org->events()->oldest('startDate')->unpublished()->get();
 
-        return view('events.events', ['year' => $eventYear, 'years' => $years, 'events' => $events, 'hidden' => $hidden]);
+        $mostRecentEvent = $org->events()->published()->orderBy('startDate', 'desc')->with('venue')->first();
+        $currentVenueId = $mostRecentEvent->venue->id;
+
+        return view('events.events', compact('year', 'years', 'events', 'hidden', 'currentVenueId'), $this->venueDropdown());
     }
 
 
@@ -63,11 +66,19 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $org = Auth::user()->currentOrganization;
-        $event = $org->events()->published()->orderBy('startDate', 'desc')->with('venue')->first();
-        $currentVenueId = $event->venue->id;
+        $venue = $request->venue;
+        $allvenue = $request->allvenue;
+        if (isset($venue))
+            $currentVenueId = $venue;
+        if (isset($allvenue))
+            $currentVenueId = $allvenue;
+        if (!isset($currentVenueId)) {
+            $org = Auth::user()->currentOrganization;
+            $mostRecentEvent = $org->events()->published()->orderBy('startDate', 'desc')->with('venue')->first();
+            $currentVenueId = $mostRecentEvent->venue->id;
+        }
         return view('events.create', compact('currentVenueId'), $this->venueDropdown());
     }
 
@@ -123,7 +134,7 @@ class EventController extends Controller
     public function update(EventRequest $request, Event $event)
     {
         $input = $request->all();
-//        dd($input);
+        //        dd($input);
 
         $start = new Carbon ($input ['startDate']);
         $end = new Carbon ($input ['endDate']);
@@ -135,7 +146,7 @@ class EventController extends Controller
         $event->venue_id = $this->selectedVenueId($request);
         $event->save();
         $currentVenueId = $event->venue_id;
-//        return $event;
+        //        return $event;
         return view('events.edit', compact('event', 'currentVenueId'), $this->venueDropdown());
     }
 
@@ -152,7 +163,8 @@ class EventController extends Controller
         return redirect('events');
     }
 
-    public function copy(Event $event) {
+    public function copy(Event $event)
+    {
         $newevent = $event->replicate();
         $newevent->published = false;
         $event->createdBy()->associate(\Auth::user());
@@ -160,22 +172,25 @@ class EventController extends Controller
         return redirect('events');
     }
 
-    protected function venueDropdown()
+    protected function venueDropdown($chosenVenueId = null)
     {
         $org = Auth::user()->currentOrganization;
         $events = $org->events()->orderBy('startDate', 'desc')->with('venue')->get();
-        $vdd = $events->mapWithKeys(function ($ev) {
+
+        foreach ($events as $ev) {
             $vn = $ev->venue;
             if ($vn->visible)
-                return [$vn->id => $vn->nameCity()];
-        });
+                $vdd[$vn->id] = $vn->nameCity();
+        }
 
         $allVenues = Venue::visible()->get();
         $allVenuesdd = $allVenues->mapWithKeys(function ($vn) {
             return [$vn->id => $vn->nameCity()];
         });
 
-        return ['venueDropdown' => $vdd, 'allVenuesDropdown' => $allVenuesdd];
+        $mostVenuesdd = $allVenuesdd->diffKeys($vdd);
+
+        return ['venueDropdown' => $vdd, 'allVenuesDropdown' => $mostVenuesdd];
     }
 
     protected function selectedVenueId(Request $request)
@@ -183,8 +198,7 @@ class EventController extends Controller
         $venueId = $request->input('venue');
         $allVenueId = $request->input('allvenue');
         if (isset($allVenueId))
-            return $allVenueId;
-        else return $venueId;
+            return $allVenueId; else return $venueId;
     }
 
 }

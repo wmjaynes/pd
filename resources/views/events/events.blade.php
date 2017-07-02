@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Events</div>
+                    <div class="panel-heading">Events for: {{ Auth::user()->currentOrganization->name }}</div>
 
 
                     <div class="panel-body">
@@ -14,7 +14,21 @@
                                     event for</a>
 
                             </button>
-                            {{ Auth::user()->currentOrganization->name }}</h3>
+                        </h3>
+
+                        {!! Form::open(['route'=>'events.create', 'method'=>'get']) !!}
+                        <div class="form-group row">
+                            {!! Form::label('venue', 'Previous Venues', ['class'=>'form-control-label col-sm-3']) !!}
+                            {!! Form::select('venue', $venueDropdown,  $currentVenueId, ['class'=>'form-control col-sm-6']) !!}
+                        </div>
+                        <div class="form-group row">
+                            {!! Form::label('allvenue', 'All Other Venues', ['class'=>'form-control-label col-sm-3']) !!}
+                            {!! Form::select('allvenue', $allVenuesDropdown, null, ['class'=>'form-control col-sm-6', 'placeholder'=>"All Other Venues..."]) !!}
+                        </div>
+                        <div class="form-group row">
+                            {!! Form::submit("Add a new event for the above venue", ['class'=>'btn btn-primary form-control  col-sm-10']) !!}
+                        </div>
+                        {!! Form::close() !!}
 
                         <hr>
                         <a href="/events">Current</a> &nbsp;&nbsp;
