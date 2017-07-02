@@ -79,7 +79,8 @@ class EventController extends Controller
             $mostRecentEvent = $org->events()->published()->orderBy('startDate', 'desc')->with('venue')->first();
             $currentVenueId = $mostRecentEvent->venue->id;
         }
-        return view('events.create', compact('currentVenueId'), $this->venueDropdown());
+//        dd($currentVenueId);
+        return view('events.create', compact('currentVenueId'), $this->venueDropdown($currentVenueId));
     }
 
     /**
@@ -177,6 +178,7 @@ class EventController extends Controller
         $org = Auth::user()->currentOrganization;
         $events = $org->events()->orderBy('startDate', 'desc')->with('venue')->get();
 
+        $vdd = collect();
         foreach ($events as $ev) {
             $vn = $ev->venue;
             if ($vn->visible)
@@ -189,6 +191,14 @@ class EventController extends Controller
         });
 
         $mostVenuesdd = $allVenuesdd->diffKeys($vdd);
+
+        if (isset($chosenVenueId)) {
+            $chosenVenuedd = $mostVenuesdd->pull($chosenVenueId);
+            $vdd[$chosenVenueId] = $chosenVenuedd;
+        }
+
+        $collection = collect(['product_id' => 'prod-100', 'name' => 'Desk']);
+        $c=$collection->pull('name');
 
         return ['venueDropdown' => $vdd, 'allVenuesDropdown' => $mostVenuesdd];
     }
