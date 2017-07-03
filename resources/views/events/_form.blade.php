@@ -24,27 +24,19 @@
         {!! Form::label('name', 'Event Name', ['class'=>'form-control-label col-sm-2']) !!}
         {!! Form::text('name', null, ['class'=>'form-control col-sm-6']) !!}
     </div>
-    <div class="form-group row {{ $errors->has('startDate') ? 'alert-danger' : '' }}">
-        {!! Form::label('startDate', 'Start Date/Time', ['class'=>'form-control-label col-sm-2']) !!}
-        {!! Form::text('startDate', null, ['class'=>'form-control col-sm-4','placeholder'=>'e.g. 2/1/17 8pm']) !!}
-        <div id='startDate-carbon'></div>
-    </div>
-    <div class="form-group row {{ $errors->has('endDate') ? 'alert-danger' : '' }}">
-        {!! Form::label('endDate', 'Ending Date/Time', ['class'=>'form-control-label col-sm-2']) !!}
-        {!! Form::text('endDate', null, ['class'=>'form-control col-sm-4','placeholder'=>'e.g. 2/1/17 10pm']) !!}
-        <div id='endDate-carbon'></div>
-    </div>
 
     <div class="form-group row bootstrap-timepicker timepicker {{ $errors->has('startDate') ? 'alert-danger' : '' }}">
         {!! Form::label('xstartDate', 'Start Date', ['class'=>'form-control-label col-sm-2']) !!}
-        {!! Form::text('xstartDate', null, ['class'=>'form-control col-sm-4','placeholder'=>'e.g. 2/1/2017']) !!}
+        {!! Form::text('xstartDate', null, ['class'=>'form-control col-sm-3','placeholder'=>'e.g. 2/1/2017']) !!}
         {!! Form::label('startTime', 'Start Time', ['class'=>'form-control-label col-sm-2']) !!}
-        {!! Form::text('startTime', null, ['class'=>'form-control col-sm-3 input-small']) !!}
+        {!! Form::text('startTime', null, ['class'=>'form-control col-sm-2 input-small']) !!}
     </div>
 
     <div class="form-group row {{ $errors->has('endDate') ? 'alert-danger' : '' }}">
-        {!! Form::label('xendDate', 'Ending Date/Time', ['class'=>'form-control-label col-sm-2']) !!}
-        {!! Form::text('xendDate', null, ['class'=>'form-control col-sm-4']) !!}
+        {!! Form::label('xendDate', 'End Date', ['class'=>'form-control-label col-sm-2']) !!}
+        {!! Form::text('xendDate', null, ['class'=>'form-control col-sm-3']) !!}
+        {!! Form::label('endTime', 'End Time', ['class'=>'form-control-label col-sm-2']) !!}
+        {!! Form::text('endTime', null, ['class'=>'form-control col-sm-2 input-small']) !!}
     </div>
 
     <div class="form-group row">
@@ -122,9 +114,14 @@
     $('#xendDate').datepicker({
         autoclose: true
     });
-    $('#startTime').timepicker({
-        minuteStep: 5,
-        showInputs: true,
-        disableFocus: true
+    $("#endTime").timepicker({
+        defaultTime: '11:00 PM'
     });
+    $("#startTime, #endTime").timepicker({
+        minuteStep: 15,
+        showInputs: true,
+        disableFocus: true,
+        defaultTime: '8:00 PM'
+    });
+
 </script>
