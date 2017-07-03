@@ -34,6 +34,19 @@
         {!! Form::text('endDate', null, ['class'=>'form-control col-sm-4','placeholder'=>'e.g. 2/1/17 10pm']) !!}
         <div id='endDate-carbon'></div>
     </div>
+
+    <div class="form-group row bootstrap-timepicker timepicker {{ $errors->has('startDate') ? 'alert-danger' : '' }}">
+        {!! Form::label('xstartDate', 'Start Date', ['class'=>'form-control-label col-sm-2']) !!}
+        {!! Form::text('xstartDate', null, ['class'=>'form-control col-sm-4','placeholder'=>'e.g. 2/1/2017']) !!}
+        {!! Form::label('startTime', 'Start Time', ['class'=>'form-control-label col-sm-2']) !!}
+        {!! Form::text('startTime', null, ['class'=>'form-control col-sm-3 input-small']) !!}
+    </div>
+
+    <div class="form-group row {{ $errors->has('endDate') ? 'alert-danger' : '' }}">
+        {!! Form::label('xendDate', 'Ending Date/Time', ['class'=>'form-control-label col-sm-2']) !!}
+        {!! Form::text('xendDate', null, ['class'=>'form-control col-sm-4']) !!}
+    </div>
+
     <div class="form-group row">
         {!! Form::label('timeInfo', 'Time Details', ['class'=>'form-control-label col-sm-2']) !!}
         {!! Form::text('timeInfo', null, ['class'=>'form-control col-sm-8','placeholder'=>'e.g. Beginner instruction at 7:30']) !!}
@@ -101,3 +114,17 @@
 <div class="form-group row">
     {!! Form::submit($submitButtonText, ['class'=>'btn btn-primary form-control offset-sm-2 col-sm-10']) !!}
 </div>
+
+<script>
+    $('#xstartDate').datepicker({
+        autoclose: true
+    });
+    $('#xendDate').datepicker({
+        autoclose: true
+    });
+    $('#startTime').timepicker({
+        minuteStep: 5,
+        showInputs: true,
+        disableFocus: true
+    });
+</script>

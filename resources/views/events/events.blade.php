@@ -5,18 +5,13 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Events for: {{ Auth::user()->currentOrganization->name }}</div>
-
+                    <div class="panel-heading">You are currently creating events for: {{ Auth::user()->currentOrganization->name }}</div>
+<hr>
 
                     <div class="panel-body">
-                        <h3>
-                            <button type="button" class="btn btn-secondary"><a href="{{route("events.create")}}">Add new
-                                    event for</a>
-
-                            </button>
-                        </h3>
 
                         {!! Form::open(['route'=>'events.create', 'method'=>'get']) !!}
+                        <fieldset class='form-group'>
                         <div class="form-group row">
                             {!! Form::label('venue', 'Previous Venues', ['class'=>'form-control-label col-sm-3']) !!}
                             {!! Form::select('venue', $venueDropdown,  $currentVenueId, ['class'=>'form-control col-sm-6']) !!}
@@ -25,6 +20,7 @@
                             {!! Form::label('allvenue', 'All Other Venues', ['class'=>'form-control-label col-sm-3']) !!}
                             {!! Form::select('allvenue', $allVenuesDropdown, null, ['class'=>'form-control col-sm-6', 'placeholder'=>"All Other Venues..."]) !!}
                         </div>
+                        </fieldset>
                         <div class="form-group row">
                             {!! Form::submit("Add a new event for the above venue", ['class'=>'btn btn-primary form-control  col-sm-10']) !!}
                         </div>
