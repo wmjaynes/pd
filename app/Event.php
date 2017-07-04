@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
+    public $xstartDate, $xendDate, $startTime, $endTime;
+
     protected $fillable = [
         'name',
         'startDate',

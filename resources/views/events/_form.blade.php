@@ -114,14 +114,11 @@
     $('#xendDate').datepicker({
         autoclose: true
     });
-    $("#endTime").timepicker({
-        defaultTime: '11:00 PM'
-    });
     $("#startTime, #endTime").timepicker({
         minuteStep: 15,
         showInputs: true,
         disableFocus: true,
-        defaultTime: '8:00 PM'
+        defaultTime: false,
     });
 
 </script>

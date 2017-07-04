@@ -93,11 +93,10 @@ class EventController extends Controller
     {
         $input = $request->all();
 
-        $start = new Carbon ($input ['startDate']);
-        $end = new Carbon ($input ['endDate']);
+        $start = new Carbon ($input ['xstartDate'].' '.$input['startTime']);
+        $end = new Carbon ($input ['xendDate'].' '.$input['endTime']);
         $input ['startDate'] = $start;
         $input ['endDate'] = $end;
-
 
         $org = Auth::user()->currentOrganization;
 
@@ -121,6 +120,10 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         $currentVenueId = $event->venue_id;
+        $event->xstartDate = $event->startDate->format('m/d/Y');
+        $event->xendDate = $event->endDate->format('m/d/Y');
+        $event->startTime = $event->startDate->format('H:i');
+        $event->endTime = $event->endDate->format('H:i');
 
         return view('events.edit', compact('event', 'currentVenueId'), $this->venueDropdown());
     }
@@ -135,13 +138,11 @@ class EventController extends Controller
     public function update(EventRequest $request, Event $event)
     {
         $input = $request->all();
-        //        dd($input);
 
-        $start = new Carbon ($input ['startDate']);
-        $end = new Carbon ($input ['endDate']);
+        $start = new Carbon ($input ['xstartDate'].' '.$input['startTime']);
+        $end = new Carbon ($input ['xendDate'].' '.$input['endTime']);
         $input ['startDate'] = $start;
         $input ['endDate'] = $end;
-
 
         $event->fill($input);
         $event->venue_id = $this->selectedVenueId($request);
