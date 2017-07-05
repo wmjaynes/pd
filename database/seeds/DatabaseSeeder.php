@@ -13,18 +13,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $seedLevel = env('DB_SEED_LEVEL', 'minimal');
         $this->call(RoleSeeder::class);
+
+        User::create([
+            'name' => 'Super User',
+            'email' => 'super@super.org',
+            'password' => Hash::make('super'),
+            'superuser' => 1,
+        ]);
+
+        if ($seedLevel == 'minimal')
+            return;
 
         DB::unprepared(file_get_contents(app_path() . "/../database/seeds/convert_pd.sql"));
 
-//        User::create([
-//            'name' => 'Will Jaynes',
-//            'email' => 'will@jaynes.org',
-//            'userid' => 'wmjaynes',
-//            'password' => 'william',
-//            'superuser' => 1,
-//        ]);
 
 //        $users = \App\User::all();
 //        foreach ($users as $user) {
