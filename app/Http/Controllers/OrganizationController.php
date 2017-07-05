@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Organization;
+use App\User;
 use App\Http\Requests\OrganizationRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -48,6 +49,7 @@ class OrganizationController extends Controller
     {
         $organization = new Organization($request->all());
         $organization->createdBy()->associate(\Auth::user());
+        $organization->aggregatees()->save($organization);
         $organization->save();
 
         return redirect('organization');
@@ -104,6 +106,7 @@ class OrganizationController extends Controller
             return redirect('organization')->withErrors($deleteErrors);
         }
 
+        User::where('activeOrganization', $organization->id)->update(['activeOrganization'=> null]);
         $organization->delete();
 
         return redirect('organization');

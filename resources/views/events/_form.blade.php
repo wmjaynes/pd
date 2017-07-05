@@ -57,7 +57,7 @@
     <legend>Venue:</legend>
     <div class="form-group row">
         {!! Form::label('venue', 'Previous Venues', ['class'=>'form-control-label col-sm-3']) !!}
-        {!! Form::select('venue', $venueDropdown,  $currentVenueId, ['class'=>'form-control col-sm-6']) !!}
+        {!! Form::select('venue', $venueDropdown,  $currentVenueId, ['class'=>'form-control col-sm-6', 'placeholder'=>"Previous Venues..."]) !!}
     </div>
     <div class="form-group row">
         {!! Form::label('allvenue', 'All Venues', ['class'=>'form-control-label col-sm-3']) !!}

@@ -48,8 +48,10 @@ class EventController extends Controller
 
         $hidden = $org->events()->oldest('startDate')->unpublished()->get();
 
+        $currentVenueId = null;
         $mostRecentEvent = $org->events()->published()->orderBy('startDate', 'desc')->with('venue')->first();
-        $currentVenueId = $mostRecentEvent->venue->id;
+        if (isset($mostRecentEvent))
+            $currentVenueId = $mostRecentEvent->venue->id;
 
         return view('events.events', compact('year', 'years', 'events', 'hidden', 'currentVenueId'), $this->venueDropdown());
     }
@@ -76,8 +78,10 @@ class EventController extends Controller
             $currentVenueId = $allvenue;
         if (!isset($currentVenueId)) {
             $org = Auth::user()->currentOrganization;
+            $currentVenueId = null;
             $mostRecentEvent = $org->events()->published()->orderBy('startDate', 'desc')->with('venue')->first();
-            $currentVenueId = $mostRecentEvent->venue->id;
+            if (isset($mostRecentEvent))
+                $currentVenueId = $mostRecentEvent->venue->id;
         }
 //        dd($currentVenueId);
         return view('events.create', compact('currentVenueId'), $this->venueDropdown($currentVenueId));
@@ -93,8 +97,8 @@ class EventController extends Controller
     {
         $input = $request->all();
 
-        $start = new Carbon ($input ['xstartDate'].' '.$input['startTime']);
-        $end = new Carbon ($input ['xendDate'].' '.$input['endTime']);
+        $start = new Carbon ($input ['xstartDate'] . ' ' . $input['startTime']);
+        $end = new Carbon ($input ['xendDate'] . ' ' . $input['endTime']);
         $input ['startDate'] = $start;
         $input ['endDate'] = $end;
 
@@ -139,8 +143,8 @@ class EventController extends Controller
     {
         $input = $request->all();
 
-        $start = new Carbon ($input ['xstartDate'].' '.$input['startTime']);
-        $end = new Carbon ($input ['xendDate'].' '.$input['endTime']);
+        $start = new Carbon ($input ['xstartDate'] . ' ' . $input['startTime']);
+        $end = new Carbon ($input ['xendDate'] . ' ' . $input['endTime']);
         $input ['startDate'] = $start;
         $input ['endDate'] = $end;
 
@@ -199,7 +203,7 @@ class EventController extends Controller
         }
 
         $collection = collect(['product_id' => 'prod-100', 'name' => 'Desk']);
-        $c=$collection->pull('name');
+        $c = $collection->pull('name');
 
         return ['venueDropdown' => $vdd, 'allVenuesDropdown' => $mostVenuesdd];
     }
