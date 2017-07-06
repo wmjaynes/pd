@@ -15,7 +15,7 @@
 
             @if(Auth::check())
 
-                @if(Auth::user()->organizations->isNotEmpty())
+                @if(Auth::user()->organizations->isNotEmpty() or Auth::user()->superuser)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('events.index') }}">Events</a>
                     </li>

@@ -120,5 +120,12 @@
         disableFocus: true,
         defaultTime: false,
     });
+    $().ready(function () {
+
+        $('#xstartDate').change(function () {
+            dt = $(this).val();
+            $('#xendDate').val(dt);
+        });
+    });
 
 </script>

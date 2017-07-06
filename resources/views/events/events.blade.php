@@ -54,7 +54,13 @@
                                                 <a href="/events/{{$event->id }}/edit">Edit</a>
                                             </button>
                                             <button type="button" class="btn btn-secondary">
+                                                <a href="/events/{{$event->id }}/publish">Publish</a>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary">
                                                 <a href="/events/{{$event->id }}/copy">Copy</a>
+                                            </button>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#copyModal">
+                                                Copy Modal
                                             </button>
                                             <button type="button" class="btn btn-secondary" data-toggle='modal'
                                                     data-target='#delete-modal' data-deleteid='{{$event->id}}'
@@ -100,8 +106,12 @@
                                                 <a href="/events/{{$event->id }}/edit">Edit</a>
                                             </button>
                                             <button type="button" class="btn btn-secondary">
+                                                <a href="/events/{{$event->id }}/unpublish">Unpublish</a>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary">
                                                 <a href="/events/{{$event->id }}/copy">Copy</a>
                                             </button>
+
                                             <button type="button" class="btn btn-secondary" data-toggle='modal'
                                                     data-target='#delete-modal' data-deleteid='{{$event->id}}'
                                                     data-deletename='{{$event->name}}'
@@ -120,6 +130,26 @@
                         @endif
 
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="copyModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Here we are.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

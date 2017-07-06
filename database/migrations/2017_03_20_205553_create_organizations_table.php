@@ -27,7 +27,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('url')->comment("Web address of the organization web site")->nullable();
             $table->string('logoUrl')->nullable();
             $table->string('facebookUrl')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

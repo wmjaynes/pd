@@ -21,6 +21,9 @@ Route::get('/home', 'HomeController@index');
 Route::get('/eventsfor/{organization}', 'EventController@show')->name('eventsfor.show');
 
 Route::get('/events/{event}/copy', 'EventController@copy')->name('events.copy');
+Route::post('/events/{event}/copy', 'EventController@copyStore')->name('events.copyStore');
+Route::get('/events/{event}/publish', 'EventController@publish')->name('events.publish');
+Route::get('/events/{event}/unpublish', 'EventController@unpublish')->name('events.unpublish');
 
 Route::resource('events', 'EventController');
 Route::resource('organization', 'OrganizationController');

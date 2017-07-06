@@ -18,7 +18,6 @@ class CheckOrganization
      */
     public function handle($request, Closure $next)
     {
-
         $organization = $request->route('organization');
         $event = $request->route('event');
         if (isset($event)) {
