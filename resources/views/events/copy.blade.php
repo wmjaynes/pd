@@ -52,8 +52,23 @@
                     $('#startDate').val(nday.format('MM/DD/YYYY'));
                 }
             });
+
+            $('#startDate').change(function () {
+                $(this).datepicker({defaultViewDate: $(this).val()})
+            });
+
+            $('#startDate').datepicker({
+                autoclose: true
+            });
         });
 
+        /**
+         *  Given the day of the week (e.g. Tuesday) and any date in some month,
+         *  determine the first of that day in the month and return it.
+         *
+         *  So, if given Wednesday and 2017-07-01, returned will be 2017-07-05,
+         *  because that is the first Wed in July, 2017.
+         */
 
         function firstDayOfWeekOfMonth(day, aDate) {
             var theDay = aDate.clone()
@@ -63,32 +78,37 @@
             return theDay;
         }
 
-        function nthdays(aday) {
-            var monday = firstDayOfWeekOfMonth(aday.day(), aday);
-            var month = monday.month();
-            var days = [];
+        /**
+         *  Given a date, say July 19, 2017 (which is the third Wed.)
+         *  return the number 3.
+         *
+         * @param aDate
+         * @returns {number}
+         */
+        function nthdays(aDate) {
+            var firstDay = firstDayOfWeekOfMonth(aDate.day(), aDate);
+            var month = firstDay.month();
             var i = 0;
             var n = 0;
-            while (month === monday.month()) {
+            while (month === firstDay.month()) {
                 i++;
-                days.push(monday.clone());
-                if (aday.isSame(monday)) {
+                if (aDate.isSame(firstDay)) {
                     n = i;
                 }
-                monday.add(7, 'd');
+                firstDay.add(7, 'd');
             }
             return n;
         }
 
-        function nthDayOfNextMonth(aday) {
-            var n = nthdays(aday);
-            var day = aday.day();
-            var aDayInNextMonth = aday.clone().add(1, 'M');
-            var monday = firstDayOfWeekOfMonth(day, aDayInNextMonth);
-            for (i=1; i<n; i++ ){
-                monday.add(7, 'd');
+        function nthDayOfNextMonth(aDate) {
+            var n = nthdays(aDate);
+            var day = aDate.day();
+            var aDayInNextMonth = aDate.clone().add(1, 'M');
+            var firstDay = firstDayOfWeekOfMonth(day, aDayInNextMonth);
+            for (i = 1; i < n; i++) {
+                firstDay.add(7, 'd');
             }
-            return monday;
+            return firstDay;
         }
 
     </script>

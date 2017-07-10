@@ -33,7 +33,6 @@ insert into events
     PageVis, EventTags, EventEntryTimestamp, EventLastEdit
   from tblEvents;
 
-
 UPDATE events ev,
   (   SELECT id, event_id
       FROM venues

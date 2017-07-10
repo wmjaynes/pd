@@ -5,24 +5,26 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">You are currently creating events for: {{ Auth::user()->currentOrganization->name }}</div>
-<hr>
+                    <div class="panel-heading">Events listing for: {{ Auth::user()->currentOrganization->name }}</div>
+                    <hr>
 
                     <div class="panel-body">
 
                         {!! Form::open(['route'=>'events.create', 'method'=>'get']) !!}
                         <fieldset class='form-group'>
-                        <div class="form-group row">
-                            {!! Form::label('venue', 'Previous Venues', ['class'=>'form-control-label col-sm-3']) !!}
-                            {!! Form::select('venue', $venueDropdown,  $currentVenueId, ['class'=>'form-control col-sm-6', 'placeholder'=>"Previous Venues..."]) !!}
-                        </div>
-                        <div class="form-group row">
-                            {!! Form::label('allvenue', 'All Other Venues', ['class'=>'form-control-label col-sm-3']) !!}
-                            {!! Form::select('allvenue', $allVenuesDropdown, null, ['class'=>'form-control col-sm-6', 'placeholder'=>"All Other Venues..."]) !!}
-                        </div>
+                            <div class="form-group row">
+                                {!! Form::label('venue', 'Previous Venues', ['class'=>'form-control-label col-sm-3']) !!}
+                                {!! Form::select('venue', $venueDropdown,  $currentVenueId, ['class'=>'form-control col-sm-6', 'placeholder'=>"Previous Venues..."]) !!}
+                            </div>
+                            <div class="form-group row">
+                                {!! Form::label('allvenue', 'All Other Venues', ['class'=>'form-control-label col-sm-3']) !!}
+                                {!! Form::select('allvenue', $allVenuesDropdown, null, ['class'=>'form-control col-sm-6', 'placeholder'=>"Or Choose From Other Venues..."]) !!}
+                            </div>
                         </fieldset>
                         <div class="form-group row">
-                            {!! Form::submit("Add a new event for the above venue", ['class'=>'btn btn-primary form-control  col-sm-10']) !!}
+                            {!! Form::submit("Add a new event for the above venue", ['class'=>'btn btn-primary form-control  col-sm-5']) !!}
+                            &nbsp;
+                            <a href="/venue" class="btn btn-primary form-control col-sm-5">Or create a new venue</a>
                         </div>
                         {!! Form::close() !!}
 
@@ -59,9 +61,9 @@
                                             <button type="button" class="btn btn-secondary">
                                                 <a href="/events/{{$event->id }}/copy">Copy</a>
                                             </button>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#copyModal">
-                                                Copy Modal
-                                            </button>
+                                            {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#copyModal">--}}
+                                            {{--Copy Modal--}}
+                                            {{--</button>--}}
                                             <button type="button" class="btn btn-secondary" data-toggle='modal'
                                                     data-target='#delete-modal' data-deleteid='{{$event->id}}'
                                                     data-deletename='{{$event->name}}'
@@ -135,7 +137,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalLabel" aria-hidden="true">
+    <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

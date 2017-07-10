@@ -50,7 +50,12 @@ class Event extends Model
 
     public function scopeFuture($query)
     {
-        $query->where('startDate', '>=', Carbon::now());
+        $query->where('startDate', '>=', Carbon::today());
+    }
+
+    public function scopeOrdered($query)
+    {
+        $query->orderBy('startDate', 'asc');
     }
 
     public function venue()

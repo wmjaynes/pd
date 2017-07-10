@@ -173,7 +173,11 @@ class EventController extends Controller
         $event->save();
         $currentVenueId = $event->venue_id;
         //        return $event;
-        return view('events.edit', compact('event', 'currentVenueId'), $this->venueDropdown());
+        if (stripos($request->submit, 'return'))
+            return redirect('events');
+        else
+            return view('events.edit', compact('event', 'currentVenueId'),
+                $this->venueDropdown());
     }
 
     /**
@@ -184,7 +188,6 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        Log::debug("destroy: $event->id");
         $event->delete();
         return redirect('events');
     }
@@ -204,32 +207,15 @@ class EventController extends Controller
 
         if ($interval == 0) {
             for ($i = 0; $i < $ncopies; $i++) {
-                $newevent = $event->replicate();
+                $newevent = $this->newEventWithNewDate($event, $startDate);
+
                 $newevent->published = false;
                 $newevent->createdBy()->associate(\Auth::user());
                 $newevent->save();
             }
-        } elseif ($interval == 1) {
+        } elseif ($interval == 1) {     /* weekly */
             for ($i = 0; $i < $ncopies; $i++) {
-                $newevent = $event->replicate();
-                $newStartDate =
-                    Carbon::create($startDate->year,
-                        $startDate->month,
-                        $startDate->day,
-                        $event->startDate->hour,
-                        $event->startDate->minute,
-                        $event->startDate->second,
-                        null);
-                $newEndDate =
-                    Carbon::create($startDate->year,
-                        $startDate->month,
-                        $startDate->day,
-                        $event->endDate->hour,
-                        $event->endDate->minute,
-                        $event->endDate->second,
-                        null);
-                $newevent->startDate = $newStartDate;
-                $newevent->endDate = $newEndDate;
+                $newevent = $this->newEventWithNewDate($event, $startDate);
 
                 $newevent->published = false;
                 $newevent->createdBy()->associate(\Auth::user());
@@ -237,28 +223,10 @@ class EventController extends Controller
 
                 $startDate->addWeek();
             }
-        } elseif ($interval == 2) {
+        } elseif ($interval == 2) {     /* monthly */
             $days = $this->getMondays($startDate, $ncopies);
             foreach ($days as $day) {
-                $newevent = $event->replicate();
-                $newStartDate =
-                    Carbon::create($day->year,
-                        $day->month,
-                        $day->day,
-                        $event->startDate->hour,
-                        $event->startDate->minute,
-                        $event->startDate->second,
-                        null);
-                $newEndDate =
-                    Carbon::create($day->year,
-                        $day->month,
-                        $day->day,
-                        $event->endDate->hour,
-                        $event->endDate->minute,
-                        $event->endDate->second,
-                        null);
-                $newevent->startDate = $newStartDate;
-                $newevent->endDate = $newEndDate;
+                $newevent = $this->newEventWithNewDate($event, $day);
 
                 $newevent->published = false;
                 $newevent->createdBy()->associate(\Auth::user());
@@ -269,7 +237,32 @@ class EventController extends Controller
         return redirect('events');
     }
 
-    public function getMondays($adate, $number)
+    protected function newEventWithNewDate($event, $newDate)
+    {
+        $newevent = $event->replicate();
+        $newStartDate =
+            Carbon::create($newDate->year,
+                $newDate->month,
+                $newDate->day,
+                $event->startDate->hour,
+                $event->startDate->minute,
+                $event->startDate->second,
+                null);
+        $newEndDate =
+            Carbon::create($newDate->year,
+                $newDate->month,
+                $newDate->day,
+                $event->endDate->hour,
+                $event->endDate->minute,
+                $event->endDate->second,
+                null);
+        $newevent->startDate = $newStartDate;
+        $newevent->endDate = $newEndDate;
+
+        return $newevent;
+    }
+
+    protected function getMondays($adate, $number)
     {
         $dayOfWeek = $adate->format('l');
         $ordinals = [1 => 'first', 2 => 'second', 3 => 'third', 4 => 'fourth'];
@@ -289,16 +282,13 @@ class EventController extends Controller
                 break;
         }
         $ordinal = $ordinals[$n];
-        Log::debug("ordinal: $ordinal n: $n");
         $dates = [];
         $firstOfMonth = $firstOfThisMonth->subMonth();
         //        dd([$firstOfThisMonth, $firstOfMonth, $number]);
         for ($i = 0; $i < $number; $i++) {
-            Log::debug("iiii:  $i  firstOfMonth: $firstOfMonth");
             $theDay =
                 Carbon::parse($ordinal . ' ' . $dayOfWeek . $firstOfMonth->addMonth()
                         ->format(' \\of F Y'));
-            Log::debug($firstOfMonth->format('l \\of F Y'));
             $dates[] = $theDay;
         }
 
