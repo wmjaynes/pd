@@ -78,34 +78,12 @@
             return theDay;
         }
 
-        /**
-         *  Given a date, say July 19, 2017 (which is the third Wed.)
-         *  return the number 3.
-         *
-         * @param aDate
-         * @returns {number}
-         */
-        function nthdays(aDate) {
-            var firstDay = firstDayOfWeekOfMonth(aDate.day(), aDate);
-            var month = firstDay.month();
-            var i = 0;
-            var n = 0;
-            while (month === firstDay.month()) {
-                i++;
-                if (aDate.isSame(firstDay)) {
-                    n = i;
-                }
-                firstDay.add(7, 'd');
-            }
-            return n;
-        }
-
         function nthDayOfNextMonth(aDate) {
-            var n = nthdays(aDate);
+            var dayOfWeekInMonth = parseInt(aDate.date() / 7) + (aDate.date() % 7 == 0 ? 0 : 1);
             var day = aDate.day();
             var aDayInNextMonth = aDate.clone().add(1, 'M');
             var firstDay = firstDayOfWeekOfMonth(day, aDayInNextMonth);
-            for (i = 1; i < n; i++) {
+            for (i = 1; i < dayOfWeekInMonth; i++) {
                 firstDay.add(7, 'd');
             }
             return firstDay;

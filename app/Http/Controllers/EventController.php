@@ -40,12 +40,10 @@ class EventController extends Controller
 
         If (is_null($year)) {
             $events = $org->events()->oldest('startDate')->future()->published()->get();
-        } else {
+        }
+        else {
             $events =
-                $org->events()
-                    ->oldest('startDate')
-                    ->published()
-                    ->whereYear('startDate', $year)
+                $org->events()->oldest('startDate')->published()->whereYear('startDate', $year)
                     ->get();
         }
         //        \DB::listen(function ($sql) {
@@ -56,16 +54,11 @@ class EventController extends Controller
 
         $currentVenueId = null;
         $mostRecentEvent =
-            $org->events()
-                ->published()
-                ->orderBy('startDate', 'desc')
-                ->with('venue')
-                ->first();
+            $org->events()->published()->orderBy('startDate', 'desc')->with('venue')->first();
         if (isset($mostRecentEvent))
             $currentVenueId = $mostRecentEvent->venue->id;
 
-        return view('events.events',
-            compact('year', 'years', 'events', 'hidden', 'currentVenueId'),
+        return view('events.events', compact('year', 'years', 'events', 'hidden', 'currentVenueId'),
             $this->venueDropdown());
     }
 
@@ -93,17 +86,12 @@ class EventController extends Controller
             $org = Auth::user()->currentOrganization;
             $currentVenueId = null;
             $mostRecentEvent =
-                $org->events()
-                    ->published()
-                    ->orderBy('startDate', 'desc')
-                    ->with('venue')
-                    ->first();
+                $org->events()->published()->orderBy('startDate', 'desc')->with('venue')->first();
             if (isset($mostRecentEvent))
                 $currentVenueId = $mostRecentEvent->venue->id;
         }
         //        dd($currentVenueId);
-        return view('events.create',
-            compact('currentVenueId'),
+        return view('events.create', compact('currentVenueId'),
             $this->venueDropdown($currentVenueId));
     }
 
@@ -176,8 +164,7 @@ class EventController extends Controller
         if (stripos($request->submit, 'return'))
             return redirect('events');
         else
-            return view('events.edit', compact('event', 'currentVenueId'),
-                $this->venueDropdown());
+            return view('events.edit', compact('event', 'currentVenueId'), $this->venueDropdown());
     }
 
     /**
@@ -213,7 +200,8 @@ class EventController extends Controller
                 $newevent->createdBy()->associate(\Auth::user());
                 $newevent->save();
             }
-        } elseif ($interval == 1) {     /* weekly */
+        }
+        elseif ($interval == 1) {     /* weekly */
             for ($i = 0; $i < $ncopies; $i++) {
                 $newevent = $this->newEventWithNewDate($event, $startDate);
 
@@ -223,8 +211,9 @@ class EventController extends Controller
 
                 $startDate->addWeek();
             }
-        } elseif ($interval == 2) {     /* monthly */
-            $days = $this->getMondays($startDate, $ncopies);
+        }
+        elseif ($interval == 2) {     /* monthly */
+            $days = $this->getRepeatingDaysOfWeekInMonth($startDate, $ncopies);
             foreach ($days as $day) {
                 $newevent = $this->newEventWithNewDate($event, $day);
 
@@ -241,54 +230,41 @@ class EventController extends Controller
     {
         $newevent = $event->replicate();
         $newStartDate =
-            Carbon::create($newDate->year,
-                $newDate->month,
-                $newDate->day,
-                $event->startDate->hour,
-                $event->startDate->minute,
-                $event->startDate->second,
-                null);
+            Carbon::create($newDate->year, $newDate->month, $newDate->day, $event->startDate->hour,
+                $event->startDate->minute, $event->startDate->second, null);
         $newEndDate =
-            Carbon::create($newDate->year,
-                $newDate->month,
-                $newDate->day,
-                $event->endDate->hour,
-                $event->endDate->minute,
-                $event->endDate->second,
-                null);
+            Carbon::create($newDate->year, $newDate->month, $newDate->day, $event->endDate->hour,
+                $event->endDate->minute, $event->endDate->second, null);
         $newevent->startDate = $newStartDate;
         $newevent->endDate = $newEndDate;
 
         return $newevent;
     }
 
-    protected function getMondays($adate, $number)
+    /**
+     * Given a date and a number, calculated the day of the week in the month
+     * (e.g second thursday), and return an array of days that correspond to
+     * N of those days in succeeding months (e.g. the 5 second thursdays starting
+     * on a date)
+     *
+     * @param $adate a date to start with
+     * @param $number number of days to return
+     * @return array all days calculated
+     *
+     */
+    protected function getRepeatingDaysOfWeekInMonth($adate, $number)
     {
         $dayOfWeek = $adate->format('l');
+        $dayOfWeekInMonth = (int)($adate->day / 7) + ($adate->day % 7 == 0 ? 0 : 1);
+
         $ordinals = [1 => 'first', 2 => 'second', 3 => 'third', 4 => 'fourth'];
-        $firstOfThisMonth = Carbon::parse('first ' . $adate->format('l \\of F Y'));
-        $firstOfNextMonth =
-            Carbon::parse('first ' . (new Carbon($adate))->addMonth()->format('l \\of F Y'));
-        $days = new \DatePeriod(
-            $firstOfThisMonth,
-            CarbonInterval::week(),
-            $firstOfNextMonth
-        );
-        $month = $firstOfThisMonth->month;
-        $n = 0;
-        foreach ($days as $day) {
-            $n++;
-            if ($day->isSameDay($adate))
-                break;
-        }
-        $ordinal = $ordinals[$n];
+        $ordinal = $ordinals[$dayOfWeekInMonth];
+
         $dates = [];
-        $firstOfMonth = $firstOfThisMonth->subMonth();
-        //        dd([$firstOfThisMonth, $firstOfMonth, $number]);
+        $firstOfMonth = $adate->startOfMonth()->subMonth();
         for ($i = 0; $i < $number; $i++) {
-            $theDay =
-                Carbon::parse($ordinal . ' ' . $dayOfWeek . $firstOfMonth->addMonth()
-                        ->format(' \\of F Y'));
+            $theDay = Carbon::parse($ordinal . ' ' . $dayOfWeek . $firstOfMonth->addMonth()
+                    ->format(' \\of F Y'));
             $dates[] = $theDay;
         }
 
@@ -300,30 +276,26 @@ class EventController extends Controller
      * @param Event $event
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public
-    function copy(Event $event)
+    public function copy(Event $event)
     {
         return view('events.copy', compact('event'));
     }
 
-    public
-    function publish(Event $event)
+    public function publish(Event $event)
     {
         $event->published = 1;
         $event->save();
         return redirect('events');
     }
 
-    public
-    function unpublish(Event $event)
+    public function unpublish(Event $event)
     {
         $event->published = 0;
         $event->save();
         return redirect('events');
     }
 
-    protected
-    function venueDropdown($chosenVenueId = null)
+    protected function venueDropdown($chosenVenueId = null)
     {
         $org = Auth::user()->currentOrganization;
         $events = $org->events()->orderBy('startDate', 'desc')->with('venue')->get();
@@ -331,7 +303,7 @@ class EventController extends Controller
         $vdd = collect();
         foreach ($events as $ev) {
             $vn = $ev->venue;
-            if ($vn->visible)
+            if (!empty($vn) and $vn->visible)
                 $vdd[$vn->id] = $vn->nameCity();
         }
 
@@ -353,13 +325,13 @@ class EventController extends Controller
         return ['venueDropdown' => $vdd, 'allVenuesDropdown' => $mostVenuesdd];
     }
 
-    protected
-    function selectedVenueId(Request $request)
+    protected function selectedVenueId(Request $request)
     {
         $venueId = $request->input('venue');
         $allVenueId = $request->input('allvenue');
         if (isset($allVenueId))
-            return $allVenueId; else return $venueId;
+            return $allVenueId;
+        else return $venueId;
     }
 
 }

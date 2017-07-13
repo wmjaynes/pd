@@ -113,7 +113,7 @@
 <div class="form-group row">
     {!! Form::submit($submitButtonText, ['class'=>'btn btn-primary form-control col-sm-5']) !!}
     &nbsp;
-    {!! Form::submit("Save and return to events listing", ['class'=>'btn btn-primary form-control col-sm-5']) !!}
+    {!! Form::submit("Save and return to events listing", ['name'=>'submit', 'class'=>'btn btn-primary form-control col-sm-5']) !!}
 </div>
 
 <script>

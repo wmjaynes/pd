@@ -19,7 +19,8 @@ class CreateEventsTable extends Migration
             $table->unsignedInteger('venue_id')->nullable();
             $table->unsignedInteger('organization_id');
             $table->foreign('venue_id')->references('id')->on('venues');
-            $table->foreign('organization_id')->references('id')->on('organizations');
+            $table->foreign('organization_id')->references('id')->on('organizations')
+                ->onDelete('cascade');
             $table->string('name');
             $table->dateTime('startDate');
             $table->dateTime('endDate');
@@ -35,12 +36,14 @@ class CreateEventsTable extends Migration
             $table->string('url')->nullable();
             $table->string('ticketInfo')->nullable();
             $table->boolean('free')->default(0);
-            $table->text('imageUrl')->nullable()->comment("Web address of a logo for the organization or event");
+            $table->text('imageUrl')->nullable()
+                ->comment("Web address of a logo for the organization or event");
             $table->text('flyerUrl')->nullable();
             $table->text('ticketUrl')->nullable();
             $table->text('altMapUrl')->nullable();
             $table->text('facebookUrl')->nullable();
-            $table->string('venueDetail')->nullable()->comment('Details about venue beyond the address. Like room number');
+            $table->string('venueDetail')->nullable()
+                ->comment('Details about venue beyond the address. Like room number');
             $table->boolean('published')->default(0)->comment('Is event visible to world');
             $table->string('tags')->nullable();
             $table->timestamps();

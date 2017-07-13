@@ -81,9 +81,6 @@ class ApiController extends Controller
                 break;
         }
 
-        //        dd([$begin, $end]);
-
-
         $query = Event::whereIn('organization_id', $ids)->published()->ordered()
             ->with(['venue', 'organization']);
 
@@ -92,7 +89,7 @@ class ApiController extends Controller
         else
             $events = $query->where('startDate', '>', $begin)->get();
 
-        return response()->json($events);
+        return response()->jsonp($events);
     }
 
     public function event(Request $request, Event $event, $moreEvents = null)
