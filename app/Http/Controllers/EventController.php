@@ -58,6 +58,7 @@ class EventController extends Controller
         if (isset($mostRecentEvent))
             $currentVenueId = $mostRecentEvent->venue->id;
 
+        //        dd($this->venueDropdown());
         return view('events.events', compact('year', 'years', 'events', 'hidden', 'currentVenueId'),
             $this->venueDropdown());
     }
@@ -77,11 +78,8 @@ class EventController extends Controller
     public function create(Request $request)
     {
         $venue = $request->venue;
-        $allvenue = $request->allvenue;
         if (isset($venue))
             $currentVenueId = $venue;
-        if (isset($allvenue))
-            $currentVenueId = $allvenue;
         if (!isset($currentVenueId)) {
             $org = Auth::user()->currentOrganization;
             $currentVenueId = null;
@@ -314,13 +312,10 @@ class EventController extends Controller
 
         $mostVenuesdd = $allVenuesdd->diffKeys($vdd);
 
-        if (isset($chosenVenueId)) {
-            $chosenVenuedd = $mostVenuesdd->pull($chosenVenueId);
-            $vdd[$chosenVenueId] = $chosenVenuedd;
+        if (isset($chosenVenueId) and $mostVenuesdd->has($chosenVenueId)) {
+            $vdd[$chosenVenueId] = $mostVenuesdd[$chosenVenueId];
+            $mostVenuesdd->pull($chosenVenueId);
         }
-
-        $collection = collect(['product_id' => 'prod-100', 'name' => 'Desk']);
-        $c = $collection->pull('name');
 
         return ['venueDropdown' => $vdd, 'allVenuesDropdown' => $mostVenuesdd];
     }

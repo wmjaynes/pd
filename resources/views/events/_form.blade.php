@@ -1,4 +1,3 @@
-
 <div class="form-group row">
     {!! Form::submit($submitButtonText, ['name'=>'submit', 'class'=>'btn btn-primary form-control col-sm-5']) !!}
     &nbsp;
@@ -63,12 +62,8 @@
 <fieldset class='form-group'>
     <legend>Venue:</legend>
     <div class="form-group row">
-        {!! Form::label('venue', 'Previous Venues', ['class'=>'form-control-label col-sm-3']) !!}
-        {!! Form::select('venue', $venueDropdown,  $currentVenueId, ['class'=>'form-control col-sm-6', 'placeholder'=>"Previous Venues..."]) !!}
-    </div>
-    <div class="form-group row">
-        {!! Form::label('allvenue', 'All Venues', ['class'=>'form-control-label col-sm-3']) !!}
-        {!! Form::select('allvenue', $allVenuesDropdown, null, ['class'=>'form-control col-sm-6', 'placeholder'=>"All Venues..."]) !!}
+        {!! Form::label('venue', 'Venues', ['class'=>'form-control-label col-sm-3']) !!}
+        {!! Form::select('venue', ['Previous Venues'=> $venueDropdown->toArray(), 'All Other Venues'=>$allVenuesDropdown->toArray()],  $currentVenueId, ['class'=>'form-control col-sm-6', 'placeholder'=>"Previous Venues..."]) !!}
     </div>
     <div class="form-group row">
         {!! Form::label('venueDetail', 'Venue Detail', ['class'=>'form-control-label col-sm-3']) !!}

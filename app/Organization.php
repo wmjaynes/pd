@@ -20,7 +20,13 @@ class Organization extends Model
         'logoUrl',
         'facebookUrl',
         'description',
+        'approved',
     ];
+
+    public function scopeVisible($query)
+    {
+        $query->where('approved', '=', 1)->orderBy('name', 'asc');
+    }
 
     public function users()
     {

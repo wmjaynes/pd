@@ -28,6 +28,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('logoUrl')->nullable();
             $table->string('facebookUrl')->nullable();
             $table->text('description')->nullable();
+            $table->boolean('approved')->default(0);
             $table->timestamps();
         });
     }

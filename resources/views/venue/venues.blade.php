@@ -4,8 +4,13 @@
     <div class="container">
 
         <h3>
-            <button type="button" class="btn btn-secondary"><a href="{{route("venue.create")}}">Add new Venue</a>
-            </button>
+            @if(Auth::user()->superuser)
+                <button type="button" class="btn btn-secondary"><a href="{{route("venue.create")}}">Add new Venue</a>
+                </button>
+            @else
+                <button type="button" class="btn btn-secondary"><a href="{{route("venue.create")}}">Request a new Venue</a>
+                </button>
+            @endif
         </h3>
 
         <hr>
@@ -18,18 +23,19 @@
                 @foreach($venues as $venue)
                     @php($route = route("venue.destroy",['$venue'=> $venue->id]))
                     <li>
-
-                        <button type="button" class="btn btn-secondary">
-                            <a href="/venue/{{$venue->id }}/edit">Edit</a>
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-toggle='modal'
-                                data-target='#delete-modal' data-deleteid='{{$venue->id}}'
-                                data-deletename='{{$venue->name}}'
-                                data-deleteModalLabel='Delete Venue' data-route="{{$route}}">
-                            Delete
-                        </button>
-
-                        {{$venue->id}} : {{$venue->name}} : {{$venue->addressLocality}} : #events - {{$venue->events->count()}}
+                        @if(Auth::user()->superuser)
+                            <button type="button" class="btn btn-secondary">
+                                <a href="/venue/{{$venue->id }}/edit">Edit</a>
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-toggle='modal'
+                                    data-target='#delete-modal' data-deleteid='{{$venue->id}}'
+                                    data-deletename='{{$venue->name}}'
+                                    data-deleteModalLabel='Delete Venue' data-route="{{$route}}">
+                                Delete
+                            </button>
+                        @endif
+                        {{$venue->id}} : {{$venue->name}} : {{$venue->addressLocality}} : #events
+                        - {{$venue->events->count()}}
 
                     </li>
 

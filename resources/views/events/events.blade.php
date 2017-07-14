@@ -13,12 +13,8 @@
                         {!! Form::open(['route'=>'events.create', 'method'=>'get']) !!}
                         <fieldset class='form-group'>
                             <div class="form-group row">
-                                {!! Form::label('venue', 'Previous Venues', ['class'=>'form-control-label col-sm-3']) !!}
-                                {!! Form::select('venue', $venueDropdown,  $currentVenueId, ['class'=>'form-control col-sm-6', 'placeholder'=>"Previous Venues..."]) !!}
-                            </div>
-                            <div class="form-group row">
-                                {!! Form::label('allvenue', 'All Other Venues', ['class'=>'form-control-label col-sm-3']) !!}
-                                {!! Form::select('allvenue', $allVenuesDropdown, null, ['class'=>'form-control col-sm-6', 'placeholder'=>"Or Choose From Other Venues..."]) !!}
+                                {!! Form::label('venue', 'Venues', ['class'=>'form-control-label col-sm-3']) !!}
+                                {!! Form::select('venue', ['Previous Venues'=> $venueDropdown->toArray(), 'All Other Venues'=>$allVenuesDropdown->toArray()],  $currentVenueId, ['class'=>'form-control col-sm-6', 'placeholder'=>"Previous Venues..."]) !!}
                             </div>
                         </fieldset>
                         <div class="form-group row">
