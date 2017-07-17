@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -42,32 +44,44 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-//            'userId' => 'required|max:20|unique:users',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
+        return Validator::make($data,
+            ['name' => 'required|max:255', //            'userId' => 'required|max:20|unique:users',
+                'email' => 'required|email|max:255|unique:users', 'password' => 'required|min:6|confirmed',]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-//            'userId' => $data['userId'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        return User::create(['name' => $data['name'], //            'userId' => $data['userId'],
+            'email' => $data['email'], 'password' => bcrypt($data['password']),]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  mixed $user
+     * @return mixed
+     */
+    protected function registered(\Illuminate\Http\Request $request, User $user)
+    {
+        $superusers = User::superuser()->get();
+        if ($superusers->isNotEmpty()) {
+            Mail::raw("A new user has registered: $user->email",
+                function ($message) use ($superusers) {
+                foreach ($superusers as $user)
+                    $message->to($user->email)->subject("New user registered");
+                });
+        }
     }
 }
