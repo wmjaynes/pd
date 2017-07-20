@@ -34,7 +34,7 @@ class VenueRequest extends FormRequest
                 'required',
                 'min:5',
                 Rule::unique('venues')->where(function ($query) {
-                    $query->where('visible', 1);
+                    $query->where('approved', 1);
                 })->ignore($this->id),
             ],
             'addressLocality' => 'required',
@@ -55,7 +55,7 @@ class VenueRequest extends FormRequest
         $streetAddress = $this->input('streetAddress');
         $addressLocality = $this->input('addressLocality');
         $addressRegion = $this->input('addressRegion');
-        $venues = Venue::visible()->where('streetAddress', $streetAddress)->
+        $venues = Venue::approved()->where('streetAddress', $streetAddress)->
         where('addressLocality', $addressLocality)->
         where('addressRegion', $addressRegion)->get();
         if ($venues->contains('id', $this->id) and $venues->count() > 1)
@@ -66,7 +66,7 @@ class VenueRequest extends FormRequest
     public function nameIsNotUnique()
     {
         $name = $this->input('name');
-        $venues = Venue::where('name', $name)->where('visible', 1)->get();
+        $venues = Venue::where('name', $name)->where('approved', 1)->get();
         if ($venues->isEmpty())
             return false;
         else return true;

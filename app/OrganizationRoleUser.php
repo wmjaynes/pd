@@ -32,4 +32,8 @@ class OrganizationRoleUser extends Pivot
     public function isAdmin() {
         return $this->role->name == 'administrator';
     }
+
+    public function isEditor() {
+        return ($this->role->name == 'administrator' or $this->role->name == 'editor');
+    }
 }

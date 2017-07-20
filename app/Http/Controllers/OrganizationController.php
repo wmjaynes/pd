@@ -21,12 +21,10 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        if (\Auth::user()->superuser)
-            $organizations = Organization::orderBy('name', 'asc')->get();
-        else
-            $organizations = \Auth::user()->organizations()->orderBy('name', 'asc')->get();
+            $allOrganizations = Organization::orderBy('name', 'asc')->get();
+            $myOrganizations = \Auth::user()->organizations()->orderBy('name', 'asc')->get();
 
-        return view('organization.organizations', ['organizations' => $organizations]);
+        return view('organization.organizations', compact('allOrganizations','myOrganizations'));
     }
 
     /**

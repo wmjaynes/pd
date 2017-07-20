@@ -75,12 +75,13 @@ class RegisterController extends Controller
      */
     protected function registered(\Illuminate\Http\Request $request, User $user)
     {
+
         $superusers = User::superuser()->get();
         if ($superusers->isNotEmpty()) {
-            Mail::raw("A new user has registered: $user->email",
+            Mail::raw("This is a messsage from AACTMAD events. A new user has registered: $user->email",
                 function ($message) use ($superusers) {
-                foreach ($superusers as $user)
-                    $message->to($user->email)->subject("New user registered");
+                    foreach ($superusers as $user)
+                        $message->to($user->email)->subject("New user registered");
                 });
         }
     }

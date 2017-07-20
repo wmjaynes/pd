@@ -20,7 +20,7 @@ class VenueController extends Controller
      */
     public function index()
     {
-        $venues = Venue::visible()->orderBy('name', 'asc')->get();
+        $venues = Venue::approved()->orderBy('name', 'asc')->get();
 
         return view('venue.venues', ['venues' => $venues]);
     }
@@ -43,9 +43,20 @@ class VenueController extends Controller
      */
     public function store(VenueRequest $request)
     {
+        $user = \Auth::user();
         $venue = new Venue($request->all());
-        $venue->createdBy()->associate(\Auth::user());
+        $venue->createdBy()->associate($user);
+        $venue->approved = true;
         $venue->save();
+
+        $superusers = User::superuser()->get();
+        if ($superusers->isNotEmpty()) {
+            Mail::raw("This is a messsage from AACTMAD events. A new venue ($venue->id : $venue->name) has been created by: $user->email",
+                function ($message) use ($superusers) {
+                    foreach ($superusers as $user)
+                        $message->to($user->email)->subject("New venue created");
+                });
+        }
         return redirect('venue');
     }
 
@@ -96,7 +107,8 @@ class VenueController extends Controller
     {
         $deleteErrors = [];
         if ($venue->events->isNotEmpty()) {
-            $deleteErrors[] = "The venue, $venue->name, has events associated with it and therefore can not be deleted.";
+            $deleteErrors[] =
+                "The venue, $venue->name, has events associated with it and therefore can not be deleted.";
             return redirect('venue')->withErrors($deleteErrors);
         }
 

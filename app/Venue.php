@@ -16,9 +16,9 @@ class Venue extends Model
         'visible',
     ];
 
-    public function scopeVisible($query)
+    public function scopeApproved($query)
     {
-        $query->where('visible', '=', 1)->orderBy('name', 'asc');
+        $query->where('approved', '=', 1)->orderBy('name', 'asc');
     }
 
     public function events()

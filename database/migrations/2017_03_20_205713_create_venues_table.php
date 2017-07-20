@@ -23,7 +23,7 @@ class CreateVenuesTable extends Migration
             $table->string('postalCode')->nullable();
             $table->float('latitude')->nullable();
             $table->float('longitude')->nullable();
-            $table->boolean('visible')->default(0);
+            $table->boolean('approved')->default(0);
             $table->unsignedInteger('created_by')->default(135)->references('id')->on('users');
             $table->unsignedInteger('event_id')->nullable()->references('id')->on('events');
             $table->timestamps();

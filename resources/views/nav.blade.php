@@ -14,23 +14,22 @@
             </li>
 
             @if(Auth::check())
-
                 @if(Auth::user()->organizations->isNotEmpty() or Auth::user()->superuser)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('events.index') }}">Events</a>
                     </li>
-                    <li class="nav-item">
+                @endif
+                <li class="nav-item">
                         <a class="nav-link" href="/venue">Venues</a>
                     </li>
-                    <li class="nav-item">
+                <li class="nav-item">
                         <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
                     </li>
-                    @if (isset(Auth::user()->currentOrganization))
-                        <li class="nav-item">
+            @if (isset(Auth::user()->currentOrganization))
+                    <li class="nav-item">
                             <a class="nav-link"
                                href="{{route('aggregate.index',['organization'=>Auth::user()->currentOrganization->id])}}">Aggregates</a>
                         </li>
-                    @endif
                 @endif
 
                 <li class="nav-item dropdown">

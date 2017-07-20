@@ -1,5 +1,5 @@
 <fieldset class='form-group'>
-    {!! Form::hidden('visible', 1) !!}
+    {!! Form::hidden('approved', 1) !!}
     <legend>Venue:</legend>
     <div class="form-group row {{ $errors->has('name') ? 'alert-danger' : '' }}">
         {!! Form::label('name', 'Venue Name', ['class'=>'form-control-label col-sm-2']) !!}

@@ -29,6 +29,10 @@ class User extends Authenticatable
         'password', 'remember_token', 'token',
     ];
 
+    public function scopeSuperuser($query) {
+        $query->where('superuser', 1);
+    }
+
     public function nameOrEmail()
     {
         if (empty(trim($this->name)))

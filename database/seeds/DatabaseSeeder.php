@@ -53,6 +53,10 @@ class DatabaseSeeder extends Seeder
         $will->currentOrganization()->associate($org);
         $will->save();
 
+        $ram = User::where('email', 'ram@albion.edu')->first();
+        $ram->password = bcrypt('jaynes');
+        $ram->save();
+
 
     }
 }

@@ -230,7 +230,7 @@ delete from venues
 where id not in
       (select distinct venue_id from events);
 
-UPDATE venues SET visible = 1
+UPDATE venues SET approved = 1
 WHERE id IN (1726, 1149, 2240,1389, 3092, 2879, 386, 1, 12, 16, 505, 43, 44, 116, 144, 47, 151, 267, 421,
             12, 410, 1305, 1726, 577, 1153, 1296, 1807, 1567, 2259, 1452, 2403, 150, 1569, 139 );
 

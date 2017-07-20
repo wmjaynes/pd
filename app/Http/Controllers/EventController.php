@@ -301,11 +301,11 @@ class EventController extends Controller
         $vdd = collect();
         foreach ($events as $ev) {
             $vn = $ev->venue;
-            if (!empty($vn) and $vn->visible)
+            if (!empty($vn) and $vn->approved)
                 $vdd[$vn->id] = $vn->nameCity();
         }
 
-        $allVenues = Venue::visible()->get();
+        $allVenues = Venue::approved()->get();
         $allVenuesdd = $allVenues->mapWithKeys(function ($vn) {
             return [$vn->id => $vn->nameCity()];
         });
