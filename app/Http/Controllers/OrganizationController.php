@@ -99,7 +99,7 @@ class OrganizationController extends Controller
     public function destroy(Organization $organization)
     {
         $deleteErrors = [];
-        if (!\Auth::user()->superuser and $organization->events->isNotEmpty()) {
+        if (!\Auth::user()->superuser and $organization->events()->isNotEmpty()) {
             $deleteErrors[] =
                 "The organization, $organization->name, has events associated with it and therefore can not be deleted.";
             return redirect('organization')->withErrors($deleteErrors);

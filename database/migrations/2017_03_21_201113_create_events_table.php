@@ -14,7 +14,8 @@ class CreateEventsTable extends Migration
     public function up()
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->increments('id');
+            $table->unsignedBigInteger('id');
+            $table->primary('id');
             $table->unsignedInteger('parent_id')->nullable();
             $table->unsignedInteger('venue_id')->nullable();
             $table->unsignedInteger('organization_id');

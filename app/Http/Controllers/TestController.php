@@ -24,7 +24,9 @@ class TestController extends Controller
 
 //        $events = $organization->with('aggregatees.events')->get();
 
-        $events = $organization->aggregatees()->with('events.venue')->get();
+//        $events = $organization->aggregatees()->with('events.venue')->get();
+
+//
 //        foreach ($events as $event){
 //            $venues = $event->venues;
 //            $organization    = $event->organization;
@@ -44,6 +46,9 @@ class TestController extends Controller
 //            var_dump($event);
 //        }
 
+//        dd($events);
+
+        $events = $organization->events()->future()->with('venue','organization')->get();
 //        dd($events);
         return response()->json($events);
     }

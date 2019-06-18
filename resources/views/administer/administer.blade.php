@@ -57,7 +57,7 @@
                         <label for="name" class="col-md-2 control-form-label">Name</label>
                         <div class="col-md-7">
                             <input type="text" class="form-control" name="searchTerm" id="searchTerm"
-                                   value='{{$searchTerm or null}}' required>
+                                   value='{{$searchTerm ?? null}}' required>
                         </div>
                         <button type="submit" value='search' name='search' class="btn btn-primary btn-sm">Search
                         </button>

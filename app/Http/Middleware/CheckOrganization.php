@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Organization;
 use Closure;
+use function dump;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,6 +19,7 @@ class CheckOrganization
      */
     public function handle($request, Closure $next)
     {
+
         $organization = $request->route('organization');
         $event = $request->route('event');
         if (isset($event)) {

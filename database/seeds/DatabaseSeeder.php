@@ -35,12 +35,18 @@ class DatabaseSeeder extends Seeder
 //            $user->save();
 //        }
 
-//        User::create([
-//            'name' => 'Will Jaynes',
-//            'email' => 'will@jaynes.org',
-//            'password' => Hash::make('jaynes'),
-//            'superuser' => 1,
-//        ]);
+        User::create([
+            'name' => 'Will Jaynes',
+            'email' => 'will@jaynes.org',
+            'password' => Hash::make('jaynes'),
+            'superuser' => 1,
+        ]);
+        User::create([
+            'name' => 'Robert Messer',
+            'email' => 'ram@albion.edu',
+            'password' => Hash::make('jaynes'),
+            'superuser' => 0,
+        ]);
 
         $org = Organization::find(135);
         $org2 = Organization::find(1);

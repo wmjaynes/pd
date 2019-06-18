@@ -94,12 +94,12 @@
 <fieldset class='form-group'>
     <legend>Other information:</legend>
 
-    @php ($urls = ['url'=>'Web Page','imageUrl'=>'Image', 'flyerUrl'=>'Flyer', 'facebookUrl'=>'Facebook Event', 'ticketUrl'=>'Tickets', 'altMapUrl'=>'Alternate Map'])
+    @php ($urls = ['url'=>'Web Page','imageUrl'=>'Logo Image', 'flyerUrl'=>'Flyer', 'facebookUrl'=>'Facebook Event', 'ticketUrl'=>'Tickets', 'altMapUrl'=>'Alternate Map'])
 
     @foreach($urls as $key => $value)
         <div class="form-group row {{ $errors->has($key) ? 'alert-danger' : '' }}">
             {!! Form::label($key, $value, ['class'=>'form-control-label col-sm-2']) !!}
-            {!! Form::text($key, null, ['placeholder'=>'http://','class'=>'form-control col-sm-6']) !!}
+            {!! Form::text($key, null, ['placeholder'=>'https://','class'=>'form-control col-sm-6']) !!}
         </div>
     @endforeach
 

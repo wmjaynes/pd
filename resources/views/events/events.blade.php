@@ -48,19 +48,13 @@
                                     @php($route = route("events.destroy",['event'=> $event->id]))
                                     <tr>
                                         <td>
-                                            <button type="button" class="btn btn-secondary">
-                                                <a href="/events/{{$event->id }}/edit">Edit</a>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary">
-                                                <a href="/events/{{$event->id }}/publish">Publish</a>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary">
-                                                <a href="/events/{{$event->id }}/copy">Copy</a>
-                                            </button>
+                                            <a href="/events/{{$event->id }}/edit" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                            <a href="/events/{{$event->id }}/publish" class="btn btn-outline-secondary btn-sm">Publish</a>
+                                            <a href="/events/{{$event->id }}/copy" class="btn btn-outline-secondary btn-sm">Copy</a>
                                             {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#copyModal">--}}
                                             {{--Copy Modal--}}
                                             {{--</button>--}}
-                                            <button type="button" class="btn btn-secondary" data-toggle='modal'
+                                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle='modal'
                                                     data-target='#delete-modal' data-deleteid='{{$event->id}}'
                                                     data-deletename='{{$event->name}}'
                                                     data-deleteModalLabel='Delete Event' data-route="{{$route}}">
@@ -100,17 +94,11 @@
                                     @php($route = route("events.destroy",['event'=> $event->id]))
                                     <tr>
                                         <td>
-                                            <button type="button" class="btn btn-secondary">
-                                                <a href="/events/{{$event->id }}/edit">Edit</a>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary">
-                                                <a href="/events/{{$event->id }}/unpublish">Unpublish</a>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary">
-                                                <a href="/events/{{$event->id }}/copy">Copy</a>
-                                            </button>
+                                            <a href="/events/{{$event->id }}/edit" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                            <a href="/events/{{$event->id }}/unpublish" class="btn btn-outline-secondary btn-sm">Unpublish</a>
+                                            <a href="/events/{{$event->id }}/copy" class="btn btn-outline-secondary btn-sm">Copy</a>
 
-                                            <button type="button" class="btn btn-secondary" data-toggle='modal'
+                                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle='modal'
                                                     data-target='#delete-modal' data-deleteid='{{$event->id}}'
                                                     data-deletename='{{$event->name}}'
                                                     data-deleteModalLabel='Delete Event' data-route="{{$route}}">

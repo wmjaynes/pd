@@ -5,9 +5,7 @@
 
 
         <p>
-            <button type="button" class="btn btn-secondary"><a href="{{route("organization.create")}}">Add new
-                    Organization</a>
-            </button>
+            <a href="{{route("organization.create")}}" class="btn btn-primary">Add new Organization</a>
         </p>
 
         <hr>
@@ -39,23 +37,15 @@
                         </td>
 
                         <td>
-                            <button type="button" class="btn btn-secondary">
-                                <a href="/organization/{{$organization->id }}/edit">Edit</a>
-                            </button>
-                            <button type="button" class="btn btn-secondary">
-                                <a href="/administer/{{$organization->id }}">Administer</a>
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-toggle='modal'
+                            <a href="/organization/{{$organization->id }}/edit" class="btn btn-outline-secondary btn-sm">Edit</a>
+                            <a href="/administer/{{$organization->id }}" class="btn btn-outline-secondary btn-sm">Administer</a>
+                            <a href="/aggregate/{{$organization->id }}" class="btn btn-outline-secondary btn-sm">Aggregates</a>
+                            <a href="/eventsfor/{{$organization->id }}" class="btn btn-outline-secondary btn-sm">Events</a>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle='modal'
                                     data-target='#delete-modal' data-deleteid='{{$organization->id}}'
                                     data-deletename='{{$organization->name}}'
                                     data-deleteModalLabel='Delete Organization' data-route="{{$route}}">
                                 Delete
-                            </button>
-                            <button type="button" class="btn btn-secondary">
-                                <a href="/aggregate/{{$organization->id }}">Aggregates</a>
-                            </button>
-                            <button type="button" class="btn btn-secondary">
-                                <a href="/eventsfor/{{$organization->id }}">Events</a>
                             </button>
                         </td>
                         <td>{{$organization->name}}
@@ -97,26 +87,20 @@
                             </div>
                         </td>
 
-                        <td>
-                            <button type="button" class="btn btn-secondary">
-                                <a href="/organization/{{$organization->id }}/edit">Edit</a>
-                            </button>
-                            <button type="button" class="btn btn-secondary">
-                                <a href="/administer/{{$organization->id }}">Administer</a>
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-toggle='modal'
-                                    data-target='#delete-modal' data-deleteid='{{$organization->id}}'
-                                    data-deletename='{{$organization->name}}'
-                                    data-deleteModalLabel='Delete Organization' data-route="{{$route}}">
-                                Delete
-                            </button>
-                            <button type="button" class="btn btn-secondary">
-                                <a href="/aggregate/{{$organization->id }}">Aggregates</a>
-                            </button>
-                            <button type="button" class="btn btn-secondary">
-                                <a href="/eventsfor/{{$organization->id }}">Events</a>
-                            </button>
-                        </td>
+                        @if(Auth::user()->superuser)
+                            <td>
+                                <a href="/organization/{{$organization->id }}/edit" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                <a href="/administer/{{$organization->id }}" class="btn btn-outline-secondary btn-sm">Administer</a>
+                                <a href="/aggregate/{{$organization->id }}" class="btn btn-outline-secondary btn-sm">Aggregates</a>
+                                <a href="/eventsfor/{{$organization->id }}" class="btn btn-outline-secondary btn-sm">Events</a>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle='modal'
+                                        data-target='#delete-modal' data-deleteid='{{$organization->id}}'
+                                        data-deletename='{{$organization->name}}'
+                                        data-deleteModalLabel='Delete Organization' data-route="{{$route}}">
+                                    Delete
+                                </button>
+                            </td>
+                        @endif
                         <td>{{$organization->name}}
                         </td>
                         <td>{{$organization->events->count()}}</td>

@@ -11,6 +11,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use function redirect;
 
 class EventController extends Controller
 {
@@ -162,7 +163,7 @@ class EventController extends Controller
         if (stripos($request->submit, 'return'))
             return redirect('events');
         else
-            return view('events.edit', compact('event', 'currentVenueId'), $this->venueDropdown());
+            return redirect()->route('events.edit', [$event]);
     }
 
     /**

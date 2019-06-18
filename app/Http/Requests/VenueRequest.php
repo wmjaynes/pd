@@ -34,7 +34,7 @@ class VenueRequest extends FormRequest
                 'required',
                 'min:5',
                 Rule::unique('venues')->where(function ($query) {
-                    $query->where('approved', 1);
+                    $query->where('approved', 1)->where('addressLocality', $this->addressLocality);
                 })->ignore($this->id),
             ],
             'addressLocality' => 'required',
@@ -45,6 +45,7 @@ class VenueRequest extends FormRequest
     public function messages()
     {
         return [
+            'name.unique' => 'This name in this city is already taken.',
             'addressLocality.required' => 'The city field is required.',
             'addressRegion.required' => 'The state field is required.',
         ];

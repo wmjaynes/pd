@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Crimson+Text');
 
 body {
-	font-family: "Times New Roman", Times, serif;
+	font-family: "Crimson Text", Times, serif;
 }
 
 fieldset {

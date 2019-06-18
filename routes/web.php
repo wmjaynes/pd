@@ -11,6 +11,12 @@
 |
 */
 
+// Display all SQL executed in Eloquent
+Event::listen('illuminate.query', function($query)
+{
+    var_dump($query);
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -47,17 +53,13 @@ Route::patch('/administer/{organization}', 'AdministerController@update')
 
 Route::get('/test/{organization}', 'TestController@test');
 
-Route::prefix('api')->group(function () {
-    Route::get('events/{organization}/{aggrType}/{outputType}', 'ApiController@events');
-    Route::get('events/{organization}/{aggrType}/{outputType}/{period}/{extra?}',
-        'ApiController@eventsperiod')->where('period', '[[dwmy]|mm|yy|ymd]+')->where('extra',
-        '.*');
-
-    //    Route::get('event/{event}/{sublevels?}/', 'ApiController@events')
-    //        ->where('sublevels', '.*')
-    //        ->name('api.event');
-
-    Route::get('event/{event}/{sublevels?}/', 'ApiController@event')->where('sublevels', '.*')
-        ->name('api.event');
-});
+//Route::prefix('api')->group(function () {
+//    Route::get('events/{organization}/{aggrType}/{outputType}', 'ApiController@events');
+//    Route::get('events/{organization}/{aggrType}/{outputType}/{period}/{extra?}',
+//        'ApiController@eventsperiod')->where('period', '[[dwmy]|mm|yy|ymd]+')->where('extra',
+//        '.*');
+//
+//    Route::get('event/{event}/{sublevels?}/', 'ApiController@event')->where('sublevels', '.*')
+//        ->name('api.event');
+//});
 

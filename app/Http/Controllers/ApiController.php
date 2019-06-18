@@ -6,6 +6,7 @@ use App\Organization;
 use App\Event;
 use App\OrganizationRoleUser;
 use App\User;
+use function dd;
 use function GuzzleHttp\Psr7\_caseless_remove;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,23 +17,37 @@ use Carbon\Carbon;
 class ApiController extends Controller
 {
 
-
     public function events(Request $request,
-                           Organization $organization,
-                           $aggrType,
-                           $outputFormat,
-                           $xxx = null)
+                           Organization $organization
+                           )
     {
+//        dd($request);
         $ids[] = $organization->id;
-        if ($aggrType == 's')
-            $ids = DB::table('aggregates')->where('aggregator_id', '=', $organization->id)
-                ->pluck('aggregatee_id');
 
         $events = Event::whereIn('organization_id', $ids)->published()->future()->ordered()
             ->with(['venue', 'organization'])->get();
 
         return response()->json($events);
     }
+
+
+//    public function events(Request $request,
+//                           Organization $organization,
+//                           $aggrType,
+//                           $outputFormat,
+//                           $xxx = null)
+//    {
+//        dd($request);
+//        $ids[] = $organization->id;
+//        if ($aggrType == 's')
+//            $ids = DB::table('aggregates')->where('aggregator_id', '=', $organization->id)
+//                ->pluck('aggregatee_id');
+//
+//        $events = Event::whereIn('organization_id', $ids)->published()->future()->ordered()
+//            ->with(['venue', 'organization'])->get();
+//
+//        return response()->json($events);
+//    }
 
     public function eventsperiod(Request $request,
                                  Organization $organization,

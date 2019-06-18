@@ -14,7 +14,8 @@ class CreateAggregatesTable extends Migration
     public function up()
     {
         Schema::create('aggregates', function (Blueprint $table) {
-            $table->increments('id');
+            $table->unsignedBigInteger('id');
+            $table->primary('id');
             $table->unsignedInteger('aggregator_id');
             $table->foreign('aggregator_id')->references('id')->on('organizations')
                 ->onDelete('cascade');

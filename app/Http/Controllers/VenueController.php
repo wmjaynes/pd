@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Venue;
 use App\Http\Requests\VenueRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class VenueController extends Controller
 {

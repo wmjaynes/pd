@@ -14,7 +14,8 @@ class CreateOrganizationUserTable extends Migration
     public function up()
     {
         Schema::create('organization_user', function (Blueprint $table) {
-            $table->increments('id');
+            $table->unsignedBigInteger('id');
+            $table->primary('id');
             $table->integer('organization_id')->unsigned();
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
             $table->integer('user_id')->unsigned();

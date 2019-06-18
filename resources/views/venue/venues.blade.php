@@ -19,8 +19,7 @@
         </ul>
 
         <p>
-            <button type="button" class="btn btn-secondary"><a href="{{route("venue.create")}}">Add new Venue</a>
-            </button>
+                <a href="{{route("venue.create")}}" class="btn btn-primary">Add new Venue</a>
         </p>
 
         <hr>
@@ -49,12 +48,8 @@
                     <tr>
                         @if(Auth::user()->superuser)
                             <td>
-                                <button type="button" class="btn btn-secondary">
-                                    <a href="/venue/{{$venue->id }}/edit">Edit</a>
-                                </button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-secondary" data-toggle='modal'
+                                <a href="/venue/{{$venue->id }}/edit" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-toggle='modal'
                                         data-target='#delete-modal' data-deleteid='{{$venue->id}}'
                                         data-deletename='{{$venue->name}}'
                                         data-deleteModalLabel='Delete Venue' data-route="{{$route}}">
