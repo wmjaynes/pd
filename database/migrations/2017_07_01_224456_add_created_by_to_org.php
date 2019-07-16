@@ -14,10 +14,16 @@ class AddCreatedByToOrg extends Migration
     public function up()
     {
         Schema::table('organizations', function (Blueprint $table) {
-            $table->unsignedInteger('created_by')->nullable()->references('id')->on('users');
+            $table->unsignedBigInteger('created_by')->nullable()->references('id')->on('users');
+        });
+        Schema::table('organizations', function (Blueprint $table) {
+            $table->unsignedBigInteger('last_updated_by')->nullable()->references('id')->on('users');
         });
         Schema::table('events', function (Blueprint $table) {
-            $table->unsignedInteger('created_by')->nullable()->references('id')->on('users');
+            $table->unsignedBigInteger('created_by')->nullable()->references('id')->on('users');
+        });
+        Schema::table('events', function (Blueprint $table) {
+            $table->unsignedBigInteger('last_updated_by')->nullable()->references('id')->on('users');
         });
     }
 

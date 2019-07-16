@@ -17,4 +17,11 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-Route::get('events/{organization}', 'ApiController@events');
+Route::middleware('api')->get('/organizations/{organization}/events', 'ApiController@events');
+Route::middleware('api')->get('/organizations/{organization}/aggregates/{aggregate}/events',
+    'ApiController@events');
+
+Route::middleware('api')->get('/aggregates/{aggregate}/events',
+    'ApiController@eventsForAggregate');
+Route::middleware('api')->get('/feeds/{aggregate}/events',
+    'ApiController@eventsForAggregate');

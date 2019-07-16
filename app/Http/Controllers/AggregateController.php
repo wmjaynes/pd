@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Aggregate;
 use App\Organization;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use function json_encode;
+use function Psy\debug;
+use function response;
+use function view;
 
 class AggregateController extends Controller
 {
@@ -16,11 +23,18 @@ class AggregateController extends Controller
     public function index(Organization $organization, Request $request)
     {
 
-//        $aggregates = $organization->aggregatees ()->where ( 'aggregator_id', '!=', $organization->id )->orderBy ( 'name', 'asc' )->get ();
-//        $aggregates = $organization->aggregatees()->get();
-        Auth::user()->setCurrentOrganization($organization);
+//        Auth::user()->setCurrentOrganization($organization);
+
+        $organization->load('aggregates', 'aggregates.organizations');
+//        return response()->json($organization);
+
+
         return view('aggregate.aggregates', ['organization' => $organization, 'searchOrgs' => [],]);
     }
+
+
+
+
 
     public function destroy(Request $request, Organization $organization)
     {

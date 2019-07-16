@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User;
 use App\Organization;
+use App\Tag;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,7 +15,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $seedLevel = env('DB_SEED_LEVEL', 'minimal');
-        $this->call(RoleSeeder::class);
 
 //        User::create([
 //            'name' => 'Super User',
@@ -49,19 +49,36 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $org = Organization::find(135);
-        $org2 = Organization::find(1);
-        $role = \App\Role::find(3);
+        $org2 = Organization::find(797);
+//        $org2 = Organization::find(1);
         $will = User::where('email', 'will@jaynes.org')->first();
-        $will->superuser = true;
-//        \Illuminate\Support\Facades\Log::debug('dbseeder - user' . $user);
-        $will->organizations()->save($org, ['role_id'=>$role->id] );
-        $will->organizations()->save($org2, ['role_id'=>2] );
+        $bob = User::where('email', 'ram@albion.edu')->first();
+//        $will->superuser = true;
+        $will->addOrganization($org);
+        $bob->addOrganization($org2);
+        $bob->addApprovedOrganization($org);
+//        $bob->save();
+//        $will->organizations()->save($org2);
         $will->currentOrganization()->associate($org);
         $will->save();
-
-        $ram = User::where('email', 'ram@albion.edu')->first();
-        $ram->password = bcrypt('jaynes');
-        $ram->save();
+//
+        Tag::create(['tag' => "AACTMAD Event Calendar"]);
+        Tag::create(['tag' => "Dance"]);
+        Tag::create(['tag' => "Contra"]);
+        Tag::create(['tag' => "English Country"]);
+        Tag::create(['tag' => "Square"]);
+        Tag::create(['tag' => "International"]);
+        Tag::create(['tag' => "Scandinavian"]);
+        Tag::create(['tag' => "Couple"]);
+        Tag::create(['tag' => "Family"]);
+        Tag::create(['tag' => "Community"]);
+        Tag::create(['tag' => "Waltz"]);
+        Tag::create(['tag' => "Concert"]);
+        Tag::create(['tag' => "Music Jam"]);
+        Tag::create(['tag' => "Open Band"]);
+        Tag::create(['tag' => "Weekend"]);
+        Tag::create(['tag' => "Week"]);
+        Tag::create(['tag' => "Meeting"]);
 
 
     }

@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -29,7 +30,8 @@ class User extends Authenticatable
         'password', 'remember_token', 'token',
     ];
 
-    public function scopeSuperuser($query) {
+    public function scopeSuperuser($query)
+    {
         $query->where('superuser', 1);
     }
 
@@ -41,29 +43,6 @@ class User extends Authenticatable
             return $this->name;
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany('App\Role')->withTimestamps();
-    }
-
-    public function hasRole($name)
-    {
-        foreach ($this->roles as $role) {
-            if ($role->name == $name) return true;
-        }
-
-        return false;
-    }
-
-    public function assignRole($role)
-    {
-        return $this->roles()->attach($role);
-    }
-
-    public function removeRole($role)
-    {
-        return $this->roles()->detach($role);
-    }
 
     public function hasOrganization($name)
     {
@@ -74,9 +53,32 @@ class User extends Authenticatable
         return false;
     }
 
+    public function addApprovedOrganization($organization) {
+        $this->organizations()->save($organization, ['approved' => true]);
+    }
+
+    public function addOrganization($organization) {
+        $this->organizations()->save($organization, ['approved' => false]);
+    }
+
     public function organizations()
     {
-        return $this->belongsToMany('App\Organization')->withTimestamps()->withPivot('role_id')->using(OrganizationRoleUser::class);
+        return $this->belongsToMany('App\Organization')
+            ->withPivot('approved', 'created_at');
+    }
+
+    public function getApprovedOrganizations()
+    {
+        return $this->belongsToMany('App\Organization')
+            ->withPivot('approved', 'created_at')
+            ->wherePivot('approved', 1);;
+    }
+
+    public function getUnapprovedOrganizations()
+    {
+        return $this->belongsToMany('App\Organization')
+            ->withPivot('approved', 'created_at')
+            ->wherePivot('approved', 0);;
     }
 
     public function currentOrganization()

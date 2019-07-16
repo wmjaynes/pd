@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Aggregate;
 use App\Organization;
 use App\Event;
 use App\OrganizationRoleUser;
 use App\User;
+use function array_column;
 use function dd;
 use function GuzzleHttp\Psr7\_caseless_remove;
 use Illuminate\Http\Request;
@@ -13,21 +15,81 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use function response;
+use function strtotime;
 
 class ApiController extends Controller
 {
-
-    public function events(Request $request,
-                           Organization $organization
-                           )
+    /*
+     * If one or both are not specified, the default for start and end dates are:
+     *     startDate: today
+     *     endDate: 6 months after the startDate
+     */
+    private function determiineStartEndDates(Request $request)
     {
-//        dd($request);
+        $startDateStr = $request->input('startDate');
+        $endDateStr = $request->input('endDate');
+
+        if (strtotime($startDateStr) === false) {
+            $startDateStr = "today";
+        }
+        if (strtotime($endDateStr) === false) {
+            $endDateStr = $startDateStr . " +6 months";
+        }
+
+        $startDate = (new Carbon($startDateStr))->startOfDay();
+        $endDate = (new Carbon($endDateStr))->startOfDay();
+        Log::debug("startDate: " . $startDate . " endDate: " . $endDate);
+
+
+        return [$startDate, $endDate];
+    }
+
+    private function packToArrays($events)
+    {
+        foreach ($events as $event) {
+            $venues[$event->venue->id] = $event->venue;
+            $organizations[$event->organization->id] = $event->organization;
+            unset($event->venue);
+            unset($event->organization);
+        }
+        return [$events, $venues, $organizations];
+    }
+
+    public function events(Request $request, Organization $organization)
+    {
+        $startEndDates = $this->determiineStartEndDates($request);
+
         $ids[] = $organization->id;
 
-        $events = Event::whereIn('organization_id', $ids)->published()->future()->ordered()
+        $events = Event::whereIn('organization_id', $ids)
+            ->whereBetween('startDate', $startEndDates)
+            ->published()
+            ->ordered()
             ->with(['venue', 'organization'])->get();
 
-        return response()->json($events);
+        $eventsVenuesOrgs = $this->packToArrays($events);
+
+        return response()->json($eventsVenuesOrgs);
+    }
+
+    public function eventsForAggregate(Aggregate $aggregate, Request $request)
+    {
+        $startEndDates = $this->determiineStartEndDates($request);
+
+        $orgs = $aggregate->organizations;
+        $orgsIds = array_column($orgs->toArray(), 'id');
+
+        $events = Event::whereIn('organization_id', $orgsIds)
+            ->whereBetween('startDate', $startEndDates)
+            ->published()
+            ->ordered()
+            ->with(['venue', 'organization'])->get();
+
+        $eventsVenuesOrgs = $this->packToArrays($events);
+
+
+        return response()->json($eventsVenuesOrgs);
     }
 
 

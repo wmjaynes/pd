@@ -5,10 +5,10 @@
 
 
 insert into organizations
-(id, name, address1, address2, city, state, postalCode, email, phone, contactName, url, logoUrl, description)
+(id, name, address1, address2, city, state, postalCode, email, phone, contactName, url, logoUrl, description, approved)
   select
     orgid, orgname, orgaddress1, orgaddress2, orgcity, orgstate, orgzip, orgemail, orgphone, orgcontactname, orgurl, orgheaderurl,
-    orgdesc
+    orgdesc, 1
   from tblOrgs;
 
 -- insert into users
@@ -34,8 +34,24 @@ insert into events
   from tblEvents;
 
 
-insert into aggregates (aggregator_id, aggregatee_id)
-  select OrgID, FeedOrgId from tblChannels;
+-- # insert into aggregates (aggregator_id, aggregatee_id)
+-- #   select OrgID, FeedOrgId from tblChannels;
+insert into aggregates (id, name, organization_id) values (1, 'Events Calendar', 135);
+insert into aggregates (id, name, organization_id) values (2, 'AACTMAD', 135);
+insert into aggregate_organization (aggregate_id, organization_id)
+    select 1, FeedOrgId from tblChannels where orgid = 135;
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 135);
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 2762);
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 824);
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 830);
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 2035);
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 973);
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 1144);
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 828);
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 829);
+insert into aggregate_organization (aggregate_id, organization_id) values(2, 797);
+
+update organizations set name = 'AACTMAD Tuesday English Dance' where id = 797;
 
 -- ###############
 -- Clean up the venues. Remove most of duplicates.

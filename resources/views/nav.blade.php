@@ -4,6 +4,7 @@
             aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+
     <a class="navbar-brand" href="/">
         <img src="/images/pd_logo_white_300.gif" alt="PublicDrum" style='max-height: 40px;'>
     </a>
@@ -20,16 +21,16 @@
                     </li>
                 @endif
                 <li class="nav-item">
-                        <a class="nav-link" href="/venue">Venues</a>
-                    </li>
+                    <a class="nav-link" href="/venue">Venues</a>
+                </li>
                 <li class="nav-item">
-                        <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
-                    </li>
-            @if (isset(Auth::user()->currentOrganization))
+                    <a class="nav-link" href="{{route('organization.index')}}">Organizations</a>
+                </li>
+                @if (isset(Auth::user()->currentOrganization))
                     <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{route('aggregate.index',['organization'=>Auth::user()->currentOrganization->id])}}">Aggregates</a>
-                        </li>
+                        <a class="nav-link"
+                           href="{{route('aggregate.index',['organization'=>Auth::user()->currentOrganization->id])}}">Aggregates</a>
+                    </li>
                 @endif
 
                 <li class="nav-item dropdown">
@@ -38,11 +39,9 @@
                         {{ Auth::user()->nameOrEmail() }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a href="{{ route('logout') }}"
+                        <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
-                                      document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
+                                      document.getElementById('logout-form').submit();"> Logout </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
                               style="display: none;">

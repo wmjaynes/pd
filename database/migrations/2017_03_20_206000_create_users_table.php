@@ -21,13 +21,13 @@ class CreateUsersTable extends Migration
 //            $table->string('userId')->unique();
             $table->string('password', 256)->nullable();
             $table->rememberToken();
-            $table->string('token')->nullable();
             $table->timestamp('lastLoggedIn')->nullable();
             $table->boolean('blocked')->default(false);
             $table->boolean('activated')->default(true);
             $table->boolean('superuser')->default(false);
             $table->unsignedInteger('activeOrganization')->nullable();
             $table->foreign('activeOrganization')->references('id')->on('organizations');
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

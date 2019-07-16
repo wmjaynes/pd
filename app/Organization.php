@@ -30,12 +30,22 @@ class Organization extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User')->withTimestamps()->withPivot('role_id')->using(OrganizationRoleUser::class);
+        return $this->belongsToMany('App\User');
     }
 
     public function user()
     {
         return $this->users()->first();
+    }
+
+//    public function aggregates()
+//    {
+//        return $this->belongsToMany('App\Aggregate');
+//    }
+
+    public function aggregates()
+    {
+        return $this->hasMany('App\Aggregate');
     }
 
     public function events()
@@ -47,23 +57,9 @@ class Organization extends Model
         return $this->hasManyThrough('App\Venue', 'App\Event');
     }
 
-    public function aggregators()
-    {
-        return $this->belongsToMany('App\Organization', 'aggregates', 'aggregatee_id', 'aggregator_id');
-    }
-
-    public function aggregatees()
-    {
-        return $this->belongsToMany('App\Organization', 'aggregates', 'aggregator_id', 'aggregatee_id');
-    }
-
     public function createdBy()
     {
         return $this->belongsTo('App\User', 'created_by');
     }
 
-    public function aggregateesNotMe() {
-        $orgs = $this->aggregatees()->orderBy('name', 'asc')->get();
-        return $orgs->except(['id' => $this->id]);
-    }
 }

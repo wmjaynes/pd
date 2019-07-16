@@ -44,13 +44,12 @@ class AdministerController extends Controller
     {
 
         $addnew = $request->addnew;
-        $roleId = ($addnew == 'addeditor' ? 2 : 3);
         $orgUsers = $organization->users;
         $addUserIds = $request->addUser;
         if (isset($addUserIds)) {
             foreach ($addUserIds as $userId) {
                 if (!$orgUsers->contains('id', $userId))
-                    $organization->users()->attach($userId, ['role_id' => $roleId]);
+                    $organization->users()->attach($userId);
             }
         }
         $user = \Auth::user();

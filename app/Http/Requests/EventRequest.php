@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class EventRequest extends FormRequest
 {
@@ -42,6 +43,8 @@ class EventRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $errors = $validator->errors();
+
+            Log::debug("startTime: ".$this->startTime);
 
             if (!$errors->has('startTime'))
                 if (!preg_match('/^(1[0-2]|0?[1-9]):[0-5][0-9] (AM|PM)$/i', $this->startTime))

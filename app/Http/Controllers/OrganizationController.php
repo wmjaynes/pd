@@ -7,6 +7,7 @@ use App\User;
 use App\Http\Requests\OrganizationRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use function response;
 
 class OrganizationController extends Controller
 {
@@ -47,6 +48,7 @@ class OrganizationController extends Controller
     {
         $organization = new Organization($request->all());
         $organization->createdBy()->associate(\Auth::user());
+        $organization->lastUpdatedBy()->associate(\Auth::user());
         $organization->aggregatees()->save($organization);
         $organization->save();
 
@@ -85,6 +87,7 @@ class OrganizationController extends Controller
     public function update(OrganizationRequest $request, Organization $organization)
     {
         $organization->fill($request->all());
+        $organization->lastUpdatedBy()->associate(\Auth::user());
         $organization->save();
 
         return view('organization.edit', compact('organization'));

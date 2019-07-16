@@ -26,7 +26,7 @@ class CreateVenuesTable extends Migration
             $table->float('longitude')->nullable();
             $table->boolean('approved')->default(0);
             $table->unsignedInteger('created_by')->default(135)->references('id')->on('users');
-            $table->unsignedInteger('event_id')->nullable()->references('id')->on('events');
+            $table->unsignedBigInteger('event_id')->nullable()->references('id')->on('events');
             $table->timestamps();
         });
     }

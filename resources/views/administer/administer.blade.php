@@ -39,7 +39,7 @@
                     <div class="checkbox">
                         <label title="{{$title}}">
                                 <input type="checkbox" name='delUser[]' value="{{$uuser->id}}" {{$disabled}}>
-                            {{$uuser->id}}: {{$uuser->name}} ({{$uuser->email}}) ({{$uuser->pivot->role->name}})
+                            {{$uuser->id}}: {{$uuser->name}} ({{$uuser->email}})
                         </label>
                     </div>
                 @endforeach
@@ -69,9 +69,6 @@
                         {!! Form::open(['route' => ['administer.org.update', $organization->id], 'method' => 'patch']) !!}
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <button type="submit" value='addeditor' name='addnew' class="btn btn-primary btn-sm">Add
-                                    Selected as Editor
-                                </button>
                                 <button type="submit" value='addadministrator' name='addnew'
                                         class="btn btn-primary btn-sm">Add
                                     Selected as Administrator

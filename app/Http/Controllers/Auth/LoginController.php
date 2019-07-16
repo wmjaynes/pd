@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -35,20 +34,6 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
-    }
-
-    public function authenticate()
-    {
-        Log::debug("authenticate: $userId : $password");
-        if (Auth::attempt(['email' => $userId, 'password' => $password, 'active' => 1, 'blocked' => 0])) {
-            // Authentication passed...
-            return redirect()->intended('home');
-        }
-    }
-
-    public function username()
-    {
-        return 'email';
+        $this->middleware('guest')->except('logout');
     }
 }

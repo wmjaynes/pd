@@ -114,6 +114,7 @@ class EventController extends Controller
         $event = new Event($input);
         $event->venue_id = $this->selectedVenueId($request);
         $event->createdBy()->associate(\Auth::user());
+        $event->lastUpdatedBy()->associate(\Auth::user());
 
         $org->events()->save($event);
         $event->save();
@@ -150,14 +151,18 @@ class EventController extends Controller
     {
         $input = $request->all();
 
-        $start = new Carbon ($input ['xstartDate'] . ' ' . $input['startTime']);
+        $startDatetime = $input ['xstartDate'] . ' ' . $input['startTime'];
+
+        $start = new Carbon ($startDatetime);
         $end = new Carbon ($input ['xendDate'] . ' ' . $input['endTime']);
         $input ['startDate'] = $start;
         $input ['endDate'] = $end;
 
         $event->fill($input);
         $event->venue_id = $this->selectedVenueId($request);
+        $event->lastUpdatedBy()->associate(\Auth::user());
         $event->save();
+
         $currentVenueId = $event->venue_id;
         //        return $event;
         if (stripos($request->submit, 'return'))

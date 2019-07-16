@@ -16,12 +16,14 @@ class CreateOrganizationUserTable extends Migration
         Schema::create('organization_user', function (Blueprint $table) {
             $table->unsignedBigInteger('id');
             $table->primary('id');
-            $table->integer('organization_id')->unsigned();
+            $table->unsignedBigInteger('organization_id');
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
-            $table->integer('user_id')->unsigned();
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
-            $table->integer('role_id')->unsigned()->default(2);
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('no action');
+
+            $table->boolean('approved')->default(false);
+            $table->unsignedBigInteger('approved_by')->nullable();
+            $table->foreign('approved_by')->references('id')->on('users');
             $table->timestamps();
 
             $table->unique(['organization_id', 'user_id']);

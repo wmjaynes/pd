@@ -19,6 +19,7 @@ class CheckOrganization
      */
     public function handle($request, Closure $next)
     {
+        return $next($request);
 
         $organization = $request->route('organization');
         $event = $request->route('event');

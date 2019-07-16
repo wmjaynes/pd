@@ -16,9 +16,9 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->unsignedBigInteger('id');
             $table->primary('id');
-            $table->unsignedInteger('parent_id')->nullable();
-            $table->unsignedInteger('venue_id')->nullable();
-            $table->unsignedInteger('organization_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('venue_id')->nullable();
+            $table->unsignedBigInteger('organization_id');
             $table->foreign('venue_id')->references('id')->on('venues');
             $table->foreign('organization_id')->references('id')->on('organizations')
                 ->onDelete('cascade');

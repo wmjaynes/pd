@@ -68,8 +68,18 @@ class Event extends Model
         return $this->belongsTo('App\Organization');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
+
     public function createdBy()
     {
         return $this->belongsTo('App\User', 'created_by');
+    }
+
+    public function lastUpdatedBy()
+    {
+        return $this->belongsTo('App\User', 'last_updated_by');
     }
 }

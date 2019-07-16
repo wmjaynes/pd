@@ -21,7 +21,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+
 
 Route::get('/home', 'HomeController@index');
 Route::get('/eventsfor/{organization}', 'EventController@show')->name('eventsfor.show');
@@ -35,7 +36,11 @@ Route::resource('events', 'EventController');
 Route::resource('organization', 'OrganizationController');
 Route::resource('venue', 'VenueController');
 
+
 Route::get('/aggregate/{organization}', 'AggregateController@index')->name('aggregate.index');
+
+
+
 Route::delete('/aggregate/{organization}', 'AggregateController@destroy')
     ->name('aggregate.destroy');
 Route::post('/aggregate/{organization}', 'AggregateController@search')->name('aggregate.search');
@@ -52,6 +57,23 @@ Route::patch('/administer/{organization}', 'AdministerController@update')
     ->name('administer.org.update');
 
 Route::get('/test/{organization}', 'TestController@test');
+
+
+/*
+ * Internal API routes. Called from within the application.
+ */
+Route::get('/organizations', "InternalApiController@getOrganizations");
+Route::get('/aggregates/{organization}', 'InternalApiController@getAggregatesForOrganizations');
+Route::get('/users/{user}/organizations', 'InternalApiController@getOrganizationsForUser');
+Route::delete('/aggregates/{aggregate}/organizations/{organization}',
+    'InternalApiController@detachOrganizationFromAggregate');
+Route::put('/aggregates/{aggregate}/organizations/{organization}',
+    'InternalApiController@attachOrganizationToAggregate');
+Route::post('/organizations/{organization}/aggregates',
+    'InternalApiController@createAggregateForOrganization');
+Route::delete('/aggregates/{aggregate}',
+    'InternalApiController@deleteAggregate');
+
 
 //Route::prefix('api')->group(function () {
 //    Route::get('events/{organization}/{aggrType}/{outputType}', 'ApiController@events');
